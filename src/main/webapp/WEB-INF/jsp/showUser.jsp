@@ -8,4 +8,21 @@
   <body>
     ${user.userName}
   </body>
+  <script type="text/javascript">
+  testajax();
+  function testajax(){
+  
+  $.ajax({
+  	url:"user/showUser1",
+  	data:{id:1},
+  	datatype:"json",
+  	success: function(msg){
+  	alert(mag);
+  	}
+  });
+  
+  }
+  
+  </script>
+  
 </html>

@@ -13,7 +13,7 @@
     </head>
     <body>
         <div id="loginbox">            
-            <form id="loginform" class="form-vertical" action="http://themedesigner.in/demo/matrix-admin/index.html">
+            <form id="loginform" class="form-vertical" action="http://themedesigner.in/demo/matrix-admin/index.jsp">
 				 <div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
                 <div class="control-group">
                     <div class="controls">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-actions">
                     <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>
-                    <span class="pull-right"><a type="submit" href="index.html" class="btn btn-success" /> Login</a></span>
+                    <span class="pull-right"><a type="submit" href="index.jsp" class="btn btn-success" /> Login</a></span>
                 </div>
             </form>
             <form id="recoverform" action="#" class="form-vertical">
