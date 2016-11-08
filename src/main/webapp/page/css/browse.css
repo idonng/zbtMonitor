@@ -1,0 +1,20 @@
+#tab1,#tab2,#tab3{height: 300px;max-width: 100%;}
+h1{padding: 20px;}
+.more{background: none !important;}
+small{color:indianred !important;}
+.zheng,.fu,.zhong{width: 20px;height:20px;}
+.zheng{background: url(../img/ic.png) no-repeat #5bb75b 7px 2px !important;}
+.zheng:hover{background: url(../img/ic.png) no-repeat #51a351 7px 2px !important;}
+.zheng:visited{background: url(../img/ic.png) no-repeat #51a351 7px 2px !important;}
+.fu{background: url(../img/ic.png) no-repeat #faa732 -22px 2px !important;}
+.fu:hover{background: url(../img/ic.png) no-repeat #f89406 -22px 2px !important;}
+.fu:visited{background: url(../img/ic.png) no-repeat #f89406 -22px 2px !important;}
+
+.zhong{background: url(../img/ic.png) no-repeat #da4f49 -55px 2px !important;}
+.zhong:hover{background: url(../img/ic.png) no-repeat #bd362f -55px 2px !important;}
+.zhong:visited{background: url(../img/ic.png) no-repeat #bd362f -55px 2px !important;}
+.control-group a{display: inline-block;width: 80px;text-align: center;padding: 5px;}
+.control-group a:hover{background: #006DCC;color: #fff;padding: 5px;}
+.active1{background: #006DCC !important;color: #fff;}
+.date-pick{margin: 20px !important;}
+

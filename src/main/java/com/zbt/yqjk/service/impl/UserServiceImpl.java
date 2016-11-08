@@ -13,7 +13,24 @@ public class UserServiceImpl implements IUserService {
 	@Resource
 	private IUserDao userDao;
 	@Override
-	public User getUserById(int userId) {
+	public User getUserById(Long userId) {
+		// TODO Auto-generated method stub
+		return this.userDao.selectByPrimaryKey(userId);
+	}
+
+	public User selectUser(User record) {
+		// TODO Auto-generated method stub
+		return this.userDao.selectUser(record);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(User record) {
+		// TODO Auto-generated method stub
+		return this.userDao.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public User selectByPrimaryKey(Long userId) {
 		// TODO Auto-generated method stub
 		return this.userDao.selectByPrimaryKey(userId);
 	}

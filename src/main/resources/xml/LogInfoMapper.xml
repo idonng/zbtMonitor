@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zbt.yqjk.dao.ILogInfoDao">
+   <resultMap id="BaseResultMap" type="com.zbt.yqjk.pojo.LogInfo">
+    <result column="log_Ky" jdbcType="BIGINT" property="logKy" />
+    <result column="log_UserId" jdbcType="BIGINT" property="logUserid" />
+    <result column="log_Type" jdbcType="VARCHAR" property="logType" />
+    <result column="log_Date" jdbcType="TIMESTAMP" property="logDate" />
+    <result column="log_Body" jdbcType="CLOB" property="logBody" />
+    <result column="log_Remarks1" jdbcType="CLOB" property="logRemarks1" />
+    <result column="log_Remarks2" jdbcType="CLOB" property="logRemarks2" />
+    <result column="log_Remarks3" jdbcType="CLOB" property="logRemarks3" />
+  </resultMap>
+  <insert id="insertLogInfo" parameterType="com.zbt.yqjk.pojo.LogInfo">
+     insert into TB_LOG_INFO (log_UserId, log_Type, 
+      log_Date, log_Body)
+    values (#{logUserid,jdbcType=BIGINT}, #{logType,jdbcType=VARCHAR}, 
+      #{logDate,jdbcType=TIMESTAMP}, #{logBody,jdbcType=CLOB})
+  </insert>
+</mapper>
