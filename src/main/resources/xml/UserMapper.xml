@@ -215,4 +215,8 @@
       user_Remarks4 = #{userRemarks4,jdbcType=CLOB}
     where user_Id = #{userId,jdbcType=BIGINT}
   </update>
+  
+   <select  id="selectLogInfo"   resultType="com.zbt.yqjk.pojo.LogInfo"  >
+     select * from  TB_LOG_INFO  where log_UserId in (${ids})
+  </select>
 </mapper>

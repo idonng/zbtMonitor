@@ -1,6 +1,8 @@
 package com.zbt.yqjk.service.impl;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.zbt.yqjk.dao.ILogInfoDao;
@@ -13,7 +15,7 @@ public class LogInfoServiceImpl implements ILogInfoService {
 	private ILogInfoDao logInfoDao;
 
 	@Override
-	public void insertLogInfo(  Long logUserid,String logType,Date logDate, String logBody ) {
+	public void insertLogInfo(Long logUserid,String logType,Date logDate, String logBody ) {
 		// TODO Auto-generated method stub
 		LogInfo li=new LogInfo();
 		li.setLogUserid(logUserid);
@@ -22,5 +24,5 @@ public class LogInfoServiceImpl implements ILogInfoService {
 		li.setLogBody(logBody);
 		this.logInfoDao.insertLogInfo(li);
 	}
-	
+ 
 }

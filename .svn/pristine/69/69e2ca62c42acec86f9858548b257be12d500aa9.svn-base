@@ -1,0 +1,572 @@
+package com.zbt.yqjk.controller;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.axis.AxisLabel;
+import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.Magic;
+import com.github.abel533.echarts.code.MarkType;
+import com.github.abel533.echarts.code.Tool;
+import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.data.PieData;
+import com.github.abel533.echarts.data.PointData;
+import com.github.abel533.echarts.feature.MagicType;
+import com.github.abel533.echarts.json.GsonOption;
+import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
+import com.github.abel533.echarts.series.Pie;
+import com.github.abel533.echarts.style.ItemStyle;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
+
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import sun.misc.BASE64Encoder;
+import sun.misc.BASE64Decoder;
+
+import com.zbt.yqjk.common.ExportWord;
+import com.zbt.yqjk.common.ReportDate;
+import com.zbt.yqjk.pojo.PublicOpinion;
+import com.zbt.yqjk.pojo.TemplateInfo;
+import com.zbt.yqjk.service.IEchartsReportService;
+import com.zbt.yqjk.service.IPublicOpinionService;
+import com.zbt.yqjk.service.ITemplateService;
+
+@Controller
+@RequestMapping("/page")
+public class ReportController {
+
+	String situation = null;
+	@Resource
+	private ITemplateService templateService;
+
+	@Resource
+	private IEchartsReportService echartsService;
+
+	@Resource
+	private IPublicOpinionService publicOpinionService;
+
+	@RequestMapping("/exportReport.do")
+	@ResponseBody
+	public String exportReport(
+			@RequestParam("publishedDate") String publishedDate,
+			@RequestParam("type") String type, HttpServletRequest request,
+			HttpServletResponse response) {
+		String currentPath = request.getSession().getServletContext()
+				.getRealPath("/")
+				+ "page\\tempImages\\";
+		// 导出默认模板的内容（若需要增加单选，增加通过名称查询模板对象，此处调用）
+		TemplateInfo temp = templateService.selectByIsDefault(1);
+		/**
+		 * 导出word
+		 */
+		Map<String, String> map = show(publishedDate, type, request, response);
+		map.put("line", getImageStr(currentPath + "line.png"));
+		map.put("pie", getImageStr(currentPath + "pie.png"));
+		map.put("negativeLine", getImageStr(currentPath + "negativeLine.png"));
+		map.put("negativePie", getImageStr(currentPath + "negativePie.png"));
+
+		String xmlPath = this.getClass().getResource("/").getPath();
+		new ExportWord().exported(map, xmlPath, temp.getTempName(), response);
+
+		// 返回一个界面刷新
+		return "analyse";
+	}
+
+	@RequestMapping("/saveImage.do")
+	public void saveImage(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		String currentPath = request.getSession().getServletContext()
+				.getRealPath("/")
+				+ "page\\tempImages\\";
+		String a = request.getParameter("a");
+		String imageName = request.getParameter("imageName");
+		if (a == null) // 图像数据为空
+			return;
+		try {
+			String[] url = a.split(",");
+			String u = url[1];
+			// Base64解码
+			byte[] b = new BASE64Decoder().decodeBuffer(u);
+			// 生成图片
+			OutputStream out = new FileOutputStream(new File(currentPath + "\\"
+					+ imageName + ".png"));
+			out.write(b);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping("/show.do")
+	@ResponseBody
+	public Map<String, String> show(
+			@RequestParam("publishedDate") String publishedDate,
+			@RequestParam("type") String type, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// 0:未分类;(默认为0) 1:正面: 2:中立; 3:负面;
+
+		publishedDate = publishedDate.replaceAll("/", "-");
+		String endTime = request.getParameter("endTime");
+		if (endTime != null) {
+			endTime = endTime.replaceAll("/", "-");
+		}
+		Integer positiveCount = 0;
+		Integer count = 0;
+		Integer negativeCount = 0;
+		String title = null;
+		int day = 0;
+		String begin = null;
+		String end = null;
+		if ("day".equals(type)) {
+			day = 1;
+			title = "日报";
+			begin = publishedDate;
+			end = ReportDate.getDayAfter(publishedDate, 1);
+			count = selectByEmotion(begin, end, 4);
+			negativeCount = selectByEmotion(begin, end, 3);
+			positiveCount = selectByEmotion(begin, end, 1);
+		} else if ("week".equals(type)) {
+			day = 7;
+			title = "周报";
+			begin = ReportDate.getDayBefore(publishedDate, 6);
+			end = ReportDate.getDayAfter(publishedDate, 1);
+			count = selectByEmotion(begin, end, 4);
+			negativeCount = selectByEmotion(begin, end, 3);
+			positiveCount = selectByEmotion(begin, end, 1);
+		} else if ("month".equals(type)) {
+			title = "月报";
+			// 判断本月多少天
+			Integer month = ReportDate.JudgeDateAmount(publishedDate);
+			day = month;
+			begin = ReportDate.JudgeYearMonth(publishedDate) + "-1";
+			end = ReportDate
+					.getDayAfter((ReportDate.JudgeYearMonth(publishedDate)
+							+ "-" + month), 1);
+			count = selectByEmotion(begin, end, 4);
+			negativeCount = selectByEmotion(begin, end, 3);
+			positiveCount = selectByEmotion(begin, end, 1);
+		} else if ("self".equals(type)) {
+			// 判断这期间多少天
+			day = ReportDate.compareDate(publishedDate, endTime);
+			title = "报告";
+			begin = publishedDate;
+			end = endTime;
+			count = selectByEmotion(begin, end, 4);
+			negativeCount = selectByEmotion(begin, end, 3);
+			positiveCount = selectByEmotion(begin, end, 1);
+		}
+		// 下载模板使用
+		Double  negativePercent = 0d;
+		Double  positivePercent = 0d;
+		Double average = 0d;
+		Double negativeAverage = 0d;
+		Double positiveAverage = 0d;
+		if (count != 0) {
+			negativePercent = (double) negativeCount / count * 100;
+			positivePercent = (double)positiveCount / count * 100;
+		}
+		if (day != 0) {
+			average = (double)count / day;
+			negativeAverage =(double) negativeCount / day;
+			positiveAverage = (double)positiveCount / day;
+		}
+
+		if (day == 1) {
+			situation = "总体而言，" + ReportDate.parseString(begin)
+					+ "社会舆论趋势比较正常 ，采集的文章中确认为负面的文章所占比例少，显示了良好的舆情发展趋势和社会关注度。";
+		} else {
+			situation = "总体而言，" + ReportDate.parseString(begin) + "至"
+					+ ReportDate.parseString(end)
+					+ "期间，社会舆论趋势比较正常 ，采集的文章中确认为负面的文章所占比例少，显示了良好的舆情发展趋势和社会关注度。";
+		}
+		DecimalFormat df = new DecimalFormat("0.00");//格式化小数 
+		DecimalFormat sf = new DecimalFormat("0.0");//格式化小数  
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("situation", this.situation);
+		map.put("begin", begin);
+		map.put("end", end);
+		map.put("average", sf.format(average));
+		map.put("negativePercent", df.format(negativePercent));
+		map.put("negativeAverage", sf.format(negativeAverage));
+		map.put("positivePercent", df.format(positivePercent));
+		map.put("positiveAverage", sf.format(positiveAverage));
+		map.put("title", title);
+		map.put("count", count.toString());
+		map.put("negativeCount", negativeCount.toString());
+		map.put("positiveCount", positiveCount.toString());
+		map.put("result", "ok");
+
+		// jsp页面展示
+		request.getSession().setAttribute("situation", situation);
+		request.getSession().setAttribute("negativePercent", df.format(negativePercent));
+		request.getSession().setAttribute("negativeAverage", sf.format(negativeAverage));
+		request.getSession().setAttribute("positivePercent", df.format(positivePercent));
+		request.getSession().setAttribute("positiveAverage", sf.format(positiveAverage));
+		request.getSession().setAttribute("average", sf.format(average));
+		request.getSession().setAttribute("title", title);
+		request.getSession().setAttribute("count", count);
+		request.getSession().setAttribute("negativeCount", negativeCount);
+		request.getSession().setAttribute("positiveCount", positiveCount);
+		return map;
+
+	}
+	@RequestMapping("/showPie.do")
+	@ResponseBody
+	public String showPie(
+			@RequestParam("publishedDate") String publishedDate,
+			@RequestParam("type") String type,
+			@RequestParam("emotion") String emotion,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		String endTime = request.getParameter("endTime");
+		if(endTime!=null){
+			endTime=endTime.replaceAll("/", "-");
+		}
+		publishedDate = publishedDate.replaceAll("/", "-");
+		int emo = Integer.parseInt(emotion);
+		Map<String, List> map = new HashMap<String, List>();
+		if ("day".equals(type)) {
+			map = pie(publishedDate, ReportDate.getDayAfter(publishedDate, 1),
+					emo);
+		} else if ("week".equals(type)) {
+			map = pie(ReportDate.getDayBefore(publishedDate, 6),
+					ReportDate.getDayAfter(publishedDate, 1), emo);
+		} else if ("month".equals(type)) {
+			String begin = ReportDate.JudgeYearMonth(publishedDate) + "-1";
+			// 判断本月多少天
+			int month = ReportDate.JudgeDateAmount(publishedDate);
+			String end = ReportDate.JudgeYearMonth(publishedDate) + "-" + month;
+			map = pie(begin, ReportDate.getDayAfter(end, 1), emo);
+		} else if ("self".equals(type)) {
+			map = pie(publishedDate, ReportDate.getDayAfter(endTime, 1), emo);
+		}
+		String title = null;
+		if (emo == 3) {
+			title = "负面舆情来源分类";
+		} else {
+			title = "总体舆情来源分类";
+		}
+		
+		Option option = echartsService.getpieOption(title,  map.get("ke"),
+				map.get("val"));
+		// 去除空置函数
+		JsonConfig jsonConfig = new JsonConfig();
+		PropertyFilter filter = new PropertyFilter() {
+			public boolean apply(Object object, String fieldName,
+					Object fieldValue) {
+				if (fieldValue instanceof List) {
+					List<Object> list = (List<Object>) fieldValue;
+					if (list.size() == 0) {
+						return true;
+					}
+				}
+				return null == fieldValue || "".equals(fieldValue);
+			}
+		};
+		jsonConfig.setJsonPropertyFilter(filter);
+		JSONObject json = JSONObject.fromObject(option, jsonConfig);
+		return json.toString();
+	}
+	// 类别图
+		private Map pie(String begintime, String endtime,
+				int emotion) {
+			Map<String, List> map = new HashMap<String, List>();
+			List<String> list1 = new ArrayList<String>();
+			List<Map<String, String>> list2 = new ArrayList<Map<String, String>>();
+			for (int i = 1; i <= 5; i++) {
+				PublicOpinion po = new PublicOpinion();
+				po.setBegintime(begintime);
+				po.setEndtime(endtime);
+				po.setResultType(i);
+				Integer in = 0;
+				String key=null;
+				if (3 == emotion) {
+					po.setResultEmotion(3);
+					in = this.publicOpinionService
+							.selectCountByResultTypeAndEmotion(po);
+				} else {
+					in = this.publicOpinionService.selectCountByResultType(po);
+				}
+				if (i == 1) {
+					key="微博";
+				} else if (i == 2) {
+					key="新闻";
+				} else if (i == 3) {
+					key="论坛";
+				} else if (i == 4) {
+					key="博客";
+				} else if (i == 5) {
+					key="微信";
+				} 
+				list1.add(key);
+				Map<String, String> maps = new HashMap<String, String>();
+				maps.put("name", key);
+				maps.put("value", in.toString());
+				list2.add(maps);
+			}
+			map.put("ke", list1);
+			map.put("val", list2);
+			return map;
+		}
+		
+	@RequestMapping(value = "/showLine")
+	@ResponseBody
+	public String showLine(@RequestParam("publishedDate") String publishedDate,
+			@RequestParam("type") String type,
+			@RequestParam("emotion") String emotion,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String endTime = request.getParameter("endTime");
+		if(endTime!=null){
+			endTime=endTime.replaceAll("/", "-");
+		}
+		publishedDate = publishedDate.replaceAll("/", "-");
+		int emo = Integer.parseInt(emotion);
+
+		Map<String, List> map = null;
+		if ("day".equals(type)) {
+			map = dayLine(publishedDate, emo);
+		} else if ("week".equals(type)) {
+			map = weekLine(publishedDate, emo);
+		} else if ("month".equals(type)) {
+			map = monthLine(publishedDate, emo);
+		} else if ("self".equals(type)) {
+			map = selfLine(publishedDate, endTime, emo);
+		}
+		String title = null;
+		if (emo == 3) {
+			title = "负面舆情趋势";
+		} else {
+			title = "总体舆情趋势";
+		}
+		Option option = echartsService.getLineOption(title, map.get("xdata"),
+				map.get("ydata"));
+		// 去除空置函数
+		JsonConfig jsonConfig = new JsonConfig();
+		PropertyFilter filter = new PropertyFilter() {
+			public boolean apply(Object object, String fieldName,
+					Object fieldValue) {
+				if (fieldValue instanceof List) {
+					List<Object> list = (List<Object>) fieldValue;
+					if (list.size() == 0) {
+						return true;
+					}
+				}
+				return null == fieldValue || "".equals(fieldValue);
+			}
+		};
+		jsonConfig.setJsonPropertyFilter(filter);
+		JSONObject json = JSONObject.fromObject(option, jsonConfig);
+		return json.toString();
+	}
+
+	// 每4小时查询一次数据
+	private Map dayLine(String publishedDate, int emotion) {
+
+		publishedDate = publishedDate.replaceAll("/", "-");
+		Map<String, List> map = new HashMap<String, List>();
+		List<String> list1 = new ArrayList<String>();
+		List<String> list2 = new ArrayList<String>();
+
+		for (int i = 0; i <= 24; i = i + 4) {
+
+			String end = ReportDate.addHouse(publishedDate, i);
+			String x = ReportDate.JudgeHouse(end);
+			PublicOpinion po = new PublicOpinion();
+			po.setBegintime(ReportDate.addHouse(publishedDate, i - 4));
+			po.setEndtime(end);
+			Integer in = 0;
+			if (3 == emotion) {
+				po.setResultEmotion(3);
+				in = this.publicOpinionService.selectCountByDateAndEmotion(po);
+			} else {
+				in = this.publicOpinionService.selectCountByDate(po);
+			}
+			list1.add(x);
+			list2.add(in.toString());
+		}
+		map.put("xdata", list1);
+		map.put("ydata", list2);
+		return map;
+	}
+	
+	// 前推一周的数据
+		private Map weekLine(String publishedDate, int emotion) {
+
+			publishedDate = publishedDate.replaceAll("/", "-");
+
+			Map<String, List> map = new HashMap<String, List>();
+			List<String> list1 = new ArrayList<String>();
+			List<String> list2 = new ArrayList<String>();
+
+			for (int i = 6; i >= 0; i--) {
+
+				String begin = ReportDate.getDayBefore(publishedDate, i);
+				PublicOpinion po = new PublicOpinion();
+				po.setBegintime(begin);
+				po.setEndtime(ReportDate.getDayBefore(publishedDate, i - 1));
+				Integer in = 0;
+				if (3 == emotion) {
+					po.setResultEmotion(3);
+					in = this.publicOpinionService.selectCountByDateAndEmotion(po);
+				} else {
+					in = this.publicOpinionService.selectCountByDate(po);
+				}
+				String x=ReportDate.JudgeDay(begin);
+				list1.add(x);
+				list2.add(in.toString());
+			}
+			map.put("xdata", list1);
+			map.put("ydata", list2);
+			return map;
+		}
+
+		// 本月的数据
+		private Map monthLine(String publishedDate,
+				int emotion) {
+
+			publishedDate = publishedDate.replaceAll("/", "-");
+
+			// 判断本月多少天
+			int month = ReportDate.JudgeDateAmount(publishedDate);
+
+			Map<String, List> map = new HashMap<String, List>();
+			List<String> list1 = new ArrayList<String>();
+			List<String> list2 = new ArrayList<String>();
+
+			for (int i = 1; i <= month; i++) {
+				publishedDate = ReportDate.JudgeYearMonth(publishedDate) + "-" + i;
+
+				String begin = ReportDate.getDayAfter(publishedDate, 0);
+
+				PublicOpinion po = new PublicOpinion();
+				po.setBegintime(begin);
+				po.setEndtime(ReportDate.getDayAfter(publishedDate, 1));
+				String x = ReportDate.JudgeDay(begin);
+				Integer in = 0;
+				if (3 == emotion) {
+					po.setResultEmotion(3);
+					in = this.publicOpinionService.selectCountByDateAndEmotion(po);
+				} else {
+					in = this.publicOpinionService.selectCountByDate(po);
+				}
+				list1.add(x);
+				list2.add(in.toString());
+			}
+			map.put("xdata", list1);
+			map.put("ydata", list2);
+			return map;
+		}
+
+		// 自定义时间的数据
+		private Map selfLine(String publishedDate,
+				String endTime, int emotion) {
+
+			publishedDate = publishedDate.replaceAll("/", "-");
+			endTime = endTime.replaceAll("/", "-");
+			// 判断这期间多少天
+			int day = ReportDate.compareDate(publishedDate, endTime);
+			Map<String, List> map = new HashMap<String, List>();
+			List<String> list1 = new ArrayList<String>();
+			List<String> list2 = new ArrayList<String>();
+			if (day == 1) {
+				dayLine(publishedDate, emotion);
+			} else {
+				for (int i = 0; i < day; i++) {
+
+					String begin = ReportDate.getDayAfter(publishedDate, i);
+					String end = ReportDate.getDayAfter(publishedDate, i + 1);
+					PublicOpinion po = new PublicOpinion();
+					po.setBegintime(begin);
+					po.setEndtime(end);
+					Integer in = 0;
+					if (3 == emotion) {
+						po.setResultEmotion(3);
+						in = this.publicOpinionService
+								.selectCountByDateAndEmotion(po);
+					} else {
+						in = this.publicOpinionService.selectCountByDate(po);
+					}
+					String x = ReportDate.JudgeDay(begin);
+					list1.add(x);
+					list2.add(in.toString());
+				}
+			}
+			map.put("xdata", list1);
+			map.put("ydata", list2);
+			return map;
+		}
+
+	private int selectByEmotion(String begintime, String endtime, int emotion) {
+
+		PublicOpinion po = new PublicOpinion();
+		po.setBegintime(begintime);
+		po.setEndtime(endtime);
+		Integer in = 0;
+		if (emotion == 4) {
+			in = this.publicOpinionService.selectCountByDate(po);
+		} else {
+			po.setResultEmotion(emotion);
+			in = this.publicOpinionService.selectCountByDateAndEmotion(po);
+		}
+		return in;
+
+	}
+
+	private String getImageStr(String imgFile) {
+		InputStream in = null;
+		byte[] data = null;
+		try {
+			in = new FileInputStream(new File(imgFile));
+			data = new byte[in.available()];
+			in.read(data);
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BASE64Encoder encoder = new BASE64Encoder();
+		return encoder.encode(data);
+	}
+
+}

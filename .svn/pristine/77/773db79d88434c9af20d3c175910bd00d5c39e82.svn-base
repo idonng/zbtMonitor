@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zbt.yqjk.dao.IUserDao" >
+  <resultMap id="BaseResultMap" type="com.zbt.yqjk.pojo.User" >
+    <id column="user_Id" property="userId" jdbcType="BIGINT" />
+    <result column="user_Admin" property="userAdmin" jdbcType="VARCHAR" />
+    <result column="user_Pwd" property="userPwd" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_Depa" property="userDepa" jdbcType="VARCHAR" />
+    <result column="user_Email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_Phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="user_Tel" property="userTel" jdbcType="VARCHAR" />
+    <result column="user_IdEnable" property="userIdenable" jdbcType="INTEGER" />
+    <result column="user_AddPerson" property="userAddperson" jdbcType="VARCHAR" />
+    <result column="user_AddDate" property="userAdddate" jdbcType="TIMESTAMP" />
+    <result column="user_Remarks1" property="userRemarks1" jdbcType="CLOB" />
+    <result column="user_Remarks2" property="userRemarks2" jdbcType="CLOB" />
+    <result column="user_Remarks3" property="userRemarks3" jdbcType="CLOB" />
+    <result column="user_Remarks4" property="userRemarks4" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_Id, user_Admin, user_Pwd, user_name, user_Depa, user_Email, user_Phone, user_Tel, 
+    user_IdEnable, user_AddPerson, user_AddDate,user_Remarks1, user_Remarks2, user_Remarks3, user_Remarks4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_USER_INFO
+    where user_Id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectUser" parameterType="com.zbt.yqjk.pojo.User" resultMap="BaseResultMap" >
+	select 
+    <include refid="Base_Column_List" />
+    from TB_USER_INFO
+    where user_Admin=#{userAdmin} and user_Pwd=#{userPwd}
+	</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TB_USER_INFO
+    where user_Id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zbt.yqjk.pojo.User" >
+    insert into TB_USER_INFO (user_Id, user_Admin, user_Pwd, 
+      user_name, user_Depa, user_Email, 
+      user_Phone, user_Tel, user_IdEnable, 
+      user_AddPerson, user_AddDate, user_Remarks1, 
+      user_Remarks2, user_Remarks3, user_Remarks4
+      )
+    values (#{userId,jdbcType=BIGINT}, #{userAdmin,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{userDepa,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, #{userIdenable,jdbcType=INTEGER}, 
+      #{userAddperson,jdbcType=VARCHAR}, #{userAdddate,jdbcType=TIMESTAMP}, #{userRemarks1,jdbcType=CLOB}, 
+      #{userRemarks2,jdbcType=CLOB}, #{userRemarks3,jdbcType=CLOB}, #{userRemarks4,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zbt.yqjk.pojo.User" >
+    insert into TB_USER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_Id,
+      </if>
+      <if test="userAdmin != null" >
+        user_Admin,
+      </if>
+      <if test="userPwd != null" >
+        user_Pwd,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userDepa != null" >
+        user_Depa,
+      </if>
+      <if test="userEmail != null" >
+        user_Email,
+      </if>
+      <if test="userPhone != null" >
+        user_Phone,
+      </if>
+      <if test="userTel != null" >
+        user_Tel,
+      </if>
+      <if test="userIdenable != null" >
+        user_IdEnable,
+      </if>
+      <if test="userAddperson != null" >
+        user_AddPerson,
+      </if>
+      <if test="userAdddate != null" >
+        user_AddDate,
+      </if>
+      <if test="userRemarks1 != null" >
+        user_Remarks1,
+      </if>
+      <if test="userRemarks2 != null" >
+        user_Remarks2,
+      </if>
+      <if test="userRemarks3 != null" >
+        user_Remarks3,
+      </if>
+      <if test="userRemarks4 != null" >
+        user_Remarks4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userAdmin != null" >
+        #{userAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepa != null" >
+        #{userDepa,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userTel != null" >
+        #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdenable != null" >
+        #{userIdenable,jdbcType=INTEGER},
+      </if>
+      <if test="userAddperson != null" >
+        #{userAddperson,jdbcType=VARCHAR},
+      </if>
+      <if test="userAdddate != null" >
+        #{userAdddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userRemarks1 != null" >
+        #{userRemarks1,jdbcType=CLOB},
+      </if>
+      <if test="userRemarks2 != null" >
+        #{userRemarks2,jdbcType=CLOB},
+      </if>
+      <if test="userRemarks3 != null" >
+        #{userRemarks3,jdbcType=CLOB},
+      </if>
+      <if test="userRemarks4 != null" >
+        #{userRemarks4,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zbt.yqjk.pojo.User" >
+    update TB_USER_INFO
+    <set >
+      <if test="userAdmin != null" >
+        user_Admin = #{userAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null" >
+        user_Pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepa != null" >
+        user_Depa = #{userDepa,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        user_Email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_Phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userTel != null" >
+        user_Tel = #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdenable != null" >
+        user_IdEnable = #{userIdenable,jdbcType=INTEGER},
+      </if>
+      <if test="userAddperson != null" >
+        user_AddPerson = #{userAddperson,jdbcType=VARCHAR},
+      </if>
+      <if test="userAdddate != null" >
+        user_AddDate = #{userAdddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userRemarks1 != null" >
+        user_Remarks1 = #{userRemarks1,jdbcType=CLOB},
+      </if>
+      <if test="userRemarks2 != null" >
+        user_Remarks2 = #{userRemarks2,jdbcType=CLOB},
+      </if>
+      <if test="userRemarks3 != null" >
+        user_Remarks3 = #{userRemarks3,jdbcType=CLOB},
+      </if>
+      <if test="userRemarks4 != null" >
+        user_Remarks4 = #{userRemarks4,jdbcType=CLOB},
+      </if>
+    </set>
+    where user_Id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zbt.yqjk.pojo.User" >
+    update TB_USER_INFO
+    set user_Admin = #{userAdmin,jdbcType=VARCHAR},
+      user_Pwd = #{userPwd,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_Depa = #{userDepa,jdbcType=VARCHAR},
+      user_Email = #{userEmail,jdbcType=VARCHAR},
+      user_Phone = #{userPhone,jdbcType=VARCHAR},
+      user_Tel = #{userTel,jdbcType=VARCHAR},
+      user_IdEnable = #{userIdenable,jdbcType=INTEGER},
+      user_AddPerson = #{userAddperson,jdbcType=VARCHAR},
+      user_AddDate = #{userAdddate,jdbcType=TIMESTAMP},
+      user_Remarks1 = #{userRemarks1,jdbcType=CLOB},
+      user_Remarks2 = #{userRemarks2,jdbcType=CLOB},
+      user_Remarks3 = #{userRemarks3,jdbcType=CLOB},
+      user_Remarks4 = #{userRemarks4,jdbcType=CLOB}
+    where user_Id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

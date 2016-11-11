@@ -1,0 +1,31 @@
+package com.zbt.yqjk.dao;
+
+import java.util.List;
+
+import com.zbt.yqjk.pojo.Template;
+
+public interface ITemplateDao {
+	
+		//模板删除字段由1变为0 ,增加最近操作人
+	 	int deleteByPrimaryKey(Template record);
+	 	
+	 	//查询是否存在默认模板
+	 	Template selectByIsDefault(int Default);
+	 	
+	 	//模板默认字段由0变为1 ,增加最近操作人
+	 	int isDefault(Template record);
+	    
+	 	int insert(Template record);
+	 	
+	 	//通过id查找
+	    Template selectByPrimaryKey(Long tempId);
+	    
+	    Template selectTemplate(Template record);
+	    
+	    //模板更新,增加最近操作人
+	    int updateByPrimaryKeySelective(Template record);
+	    
+	    //页面展示
+	    List<Template> selectAll();
+	    
+}

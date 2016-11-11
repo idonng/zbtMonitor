@@ -1,0 +1,36 @@
+package com.zbt.yqjk.service.impl;
+
+import java.util.Date;
+import java.util.List;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+
+import com.zbt.yqjk.dao.IPublicOpinionDao;
+import com.zbt.yqjk.pojo.Keyword;
+import com.zbt.yqjk.pojo.PageBean;
+import com.zbt.yqjk.pojo.PublicOpinion;
+import com.zbt.yqjk.service.IPublicOpinionService;
+
+@Service("publicOpinionService")
+public class PublicOpinionServiceImpl implements IPublicOpinionService {
+	@Resource
+	private IPublicOpinionDao publicOpinionDao;
+	@Override
+	
+	//根据关键词条集合获取分页的内容
+	public List<PublicOpinion> getPublicOpinionBykeywords(int resultType,Date begintime,
+			Date endtime,PageBean pageBean,
+			List<Keyword> keywords) {
+		return this.publicOpinionDao.getPublicOpinionBykeywords(resultType,begintime,
+				endtime,pageBean.getPageSize(),pageBean.getPageNum(),keywords);
+	}
+	
+	@Override
+	//根据关键字词条集合获取总记录数
+	public int getPublicOpinionRowsCount(int resultType,Date begintime,
+			Date endtime,List<Keyword> keywords) {
+		return this.publicOpinionDao.getPublicOpinionRowsCount(resultType,begintime,
+				endtime,keywords);
+	}
+
+}

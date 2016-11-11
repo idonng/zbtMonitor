@@ -1,0 +1,282 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}/page"></c:set>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>舆情浏览 | zbtMonitor</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="${ctx}/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${ctx}/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="${ctx}/css/browse.css" />
+<link rel="stylesheet" href="${ctx}/css/uniform.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/select2.css"/>
+<link rel="stylesheet" href="${ctx}/css/fullcalendar.css" />
+<link rel="stylesheet" href="${ctx}/css/style.css" />
+<link rel="stylesheet" href="${ctx}/css/media.css" />
+<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/css/jquery.gritter.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+
+</head>
+
+<body>
+
+<!--main-container-part-->
+<div id="content">
+<!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="${ctx}/jsp/index.jsp" title="返回首页" class="tip-bottom"><i class="icon-home"></i> 首页</a></div>
+  </div>
+<!--End-breadcrumbs-->
+<div class="container-fluid">
+<h1>舆情浏览</h1>
+<hr />
+
+<div class="row-fluid">
+      <div class="span6">
+      	<div class="control-group">
+              <h5>媒体类型:
+              <a href="" class="active1">全部</a>
+              <a href="">新闻</a>
+              <a href="">论坛</a>
+              <a href="">博客</a>
+              <a href="">微博</a>
+              </h5>
+              <h5>发布日期:
+              <a href="" class="active1">全部</a>
+              <a href="">当天</a>
+              <a href="">一周内</a>
+              <input type="date" id="date-pick" value="" class="date-pick"/>
+              </h5>
+            </div>
+          </div>
+          <div class="widget-box">
+          	<table class="table table-bordered data-table">
+          		<thead>
+          			<tr>
+          				<th>舆情浏览</th>
+          			</tr>
+          		</thead>
+          		<tbody>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          			<tr>
+          				<td>
+          					<div class="article-post">
+		                  <div class="fr"><a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#send"> <i class="icon-share"></i> 邮件转发</a> <a href="#" class="btn btn-info btn-mini" data-toggle="modal" data-target="#text"> <i class="icon-envelope"></i> 短信转发</a> <a href="#" class="btn btn-info btn-mini"> <i class="icon-plus"></i> 加入收藏</a> <a href="#" class="btn btn-inverse btn-mini"> <i class="icon-remove"></i> 删除</a> <a href="#" class="btn btn-mini zheng"></a> <a href="#" class="btn btn-mini fu"> </a> <a href="#" class="btn btn-mini zhong"> </a></div>
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+          				</td>
+          			</tr>
+          		</tbody>
+            
+           </table>
+           	
+          </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="send" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">邮件转发</h4>
+      </div>
+      <div class="modal-body">
+        <input type="email" id="email"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">转发</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="text" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">短信转发</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">转发</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--end-main-container-part-->
+
+<!--Footer-part-->
+
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2016 &copy; 步长制药. Copyright <a href="index.jsp">电商部</a> </div>
+</div>
+
+<!--end-Footer-part-->
+
+<script src="${ctx}/js/jquery.min.js"></script> 
+<script src="${ctx}/js/jquery.ui.custom.js"></script> 
+<script src="${ctx}/js/bootstrap.min.js"></script> 
+<script src="${ctx}/js/jquery.uniform.js"></script> 
+<script src="${ctx}/js/select2.min.js"></script> 
+<script src="${ctx}/js/jquery.dataTables.min.js"></script> 
+<script src="${ctx}/js/matrix.js"></script> 
+<script src="${ctx}/js/tables.js"></script>
+<script src="${ctx}/js/jqPaginator.js"></script>
+</body>
+</html>

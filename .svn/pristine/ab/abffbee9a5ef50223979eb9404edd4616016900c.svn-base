@@ -1,0 +1,27 @@
+package com.zbt.yqjk.service;
+
+import java.util.List;
+
+import com.zbt.yqjk.pojo.Keyword;
+
+public interface IKeywordService {
+	public int deleteByPrimaryKey(Long keywordId);
+
+	public int insert(Keyword record);
+
+	public int insertSelective(Keyword record);
+
+	public Keyword selectByPrimaryKey(Long keywordId);
+
+	public int updateByPrimaryKeySelective(Keyword record);
+
+	public int updateByPrimaryKeyWithBLOBs(Keyword record);
+
+	public int updateByPrimaryKey(Keyword record);
+	
+	//根据专题名称查找所属关键字对应的关键词条实体类
+	public List<Keyword> selectKeywordsByKeywordFeature(String keywordFeature);
+	
+	//获取专题名称
+	public List<String> selectKeywordFeature();
+}

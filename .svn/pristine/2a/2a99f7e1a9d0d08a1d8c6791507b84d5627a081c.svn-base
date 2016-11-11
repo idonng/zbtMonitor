@@ -1,0 +1,25 @@
+package com.zbt.yqjk.service;
+
+import java.util.List;
+
+import com.zbt.yqjk.pojo.Template;
+
+public interface ITemplateService {
+	
+	public Template selectByPrimaryKey(Long tempId);
+	
+	public Template selectByIsDefault(int Default);
+	
+	public Template selectTemplate(Template record);
+	
+	public int insert(Template record);
+	
+	public int deleteByPrimaryKey(Template record) ;
+	
+	public int isDefault(Template record) ;
+	
+	public int updateByPrimaryKeySelective(Template record);
+	
+	public List<Template>  selectAll();
+	
+}

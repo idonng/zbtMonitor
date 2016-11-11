@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zbt.yqjk.dao.IKeywordDao" >
+  <resultMap id="BaseResultMap" type="com.zbt.yqjk.pojo.Keyword" >
+    <id column="keyword_Id" property="keywordId" jdbcType="BIGINT" />
+    <result column="keyword_Feature" property="keywordFeature" jdbcType="VARCHAR" />
+    <result column="keyword_name" property="keywordName" jdbcType="VARCHAR" />
+    <result column="add_UserId" property="addUserid" jdbcType="BIGINT" />
+    <result column="add_Date" property="addDate" jdbcType="TIMESTAMP" />
+    <result column="rcd_UserId" property="rcdUserid" jdbcType="BIGINT" />
+    <result column="rcd_Date" property="rcdDate" jdbcType="TIMESTAMP" />
+    <result column="keyword_IsEnable" property="keywordIsenable" jdbcType="INTEGER" />
+    <result column="keyword_remarks1" property="keywordRemarks1" jdbcType="CLOB" />
+    <result column="keyword_remarks2" property="keywordRemarks2" jdbcType="CLOB" />
+    <result column="keyword_remarks3" property="keywordRemarks3" jdbcType="CLOB" />
+    <result column="keyword_remarks4" property="keywordRemarks4" jdbcType="CLOB" />
+  </resultMap>
+ 
+ <sql id="Base_Column_List" >
+    keyword_Id, keyword_Feature, keyword_name, add_UserId, add_Date, rcd_UserId, rcd_Date, 
+    keyword_IsEnable,keyword_remarks1, keyword_remarks2, keyword_remarks3, keyword_remarks4
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_KEYWORD
+    where keyword_Id = #{keywordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TB_KEYWORD
+    where keyword_Id = #{keywordId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zbt.yqjk.pojo.Keyword" >
+    insert into TB_KEYWORD (keyword_Id, keyword_Feature, keyword_name, 
+      add_UserId, add_Date, rcd_UserId, 
+      rcd_Date, keyword_IsEnable, keyword_remarks1, 
+      keyword_remarks2, keyword_remarks3, keyword_remarks4
+      )
+    values (#{keywordId,jdbcType=BIGINT}, #{keywordFeature,jdbcType=VARCHAR}, #{keywordName,jdbcType=VARCHAR}, 
+      #{addUserid,jdbcType=BIGINT}, #{addDate,jdbcType=TIMESTAMP}, #{rcdUserid,jdbcType=BIGINT}, 
+      #{rcdDate,jdbcType=TIMESTAMP}, #{keywordIsenable,jdbcType=INTEGER}, #{keywordRemarks1,jdbcType=CLOB}, 
+      #{keywordRemarks2,jdbcType=CLOB}, #{keywordRemarks3,jdbcType=CLOB}, #{keywordRemarks4,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zbt.yqjk.pojo.Keyword" >
+    insert into TB_KEYWORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="keywordId != null" >
+        keyword_Id,
+      </if>
+      <if test="keywordFeature != null" >
+        keyword_Feature,
+      </if>
+      <if test="keywordName != null" >
+        keyword_name,
+      </if>
+      <if test="addUserid != null" >
+        add_UserId,
+      </if>
+      <if test="addDate != null" >
+        add_Date,
+      </if>
+      <if test="rcdUserid != null" >
+        rcd_UserId,
+      </if>
+      <if test="rcdDate != null" >
+        rcd_Date,
+      </if>
+      <if test="keywordIsenable != null" >
+        keyword_IsEnable,
+      </if>
+      <if test="keywordRemarks1 != null" >
+        keyword_remarks1,
+      </if>
+      <if test="keywordRemarks2 != null" >
+        keyword_remarks2,
+      </if>
+      <if test="keywordRemarks3 != null" >
+        keyword_remarks3,
+      </if>
+      <if test="keywordRemarks4 != null" >
+        keyword_remarks4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="keywordId != null" >
+        #{keywordId,jdbcType=BIGINT},
+      </if>
+      <if test="keywordFeature != null" >
+        #{keywordFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordName != null" >
+        #{keywordName,jdbcType=VARCHAR},
+      </if>
+      <if test="addUserid != null" >
+        #{addUserid,jdbcType=BIGINT},
+      </if>
+      <if test="addDate != null" >
+        #{addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rcdUserid != null" >
+        #{rcdUserid,jdbcType=BIGINT},
+      </if>
+      <if test="rcdDate != null" >
+        #{rcdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keywordIsenable != null" >
+        #{keywordIsenable,jdbcType=INTEGER},
+      </if>
+      <if test="keywordRemarks1 != null" >
+        #{keywordRemarks1,jdbcType=CLOB},
+      </if>
+      <if test="keywordRemarks2 != null" >
+        #{keywordRemarks2,jdbcType=CLOB},
+      </if>
+      <if test="keywordRemarks3 != null" >
+        #{keywordRemarks3,jdbcType=CLOB},
+      </if>
+      <if test="keywordRemarks4 != null" >
+        #{keywordRemarks4,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zbt.yqjk.pojo.Keyword" >
+    update TB_KEYWORD
+    <set >
+      <if test="keywordFeature != null" >
+        keyword_Feature = #{keywordFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordName != null" >
+        keyword_name = #{keywordName,jdbcType=VARCHAR},
+      </if>
+      <if test="addUserid != null" >
+        add_UserId = #{addUserid,jdbcType=BIGINT},
+      </if>
+      <if test="addDate != null" >
+        add_Date = #{addDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rcdUserid != null" >
+        rcd_UserId = #{rcdUserid,jdbcType=BIGINT},
+      </if>
+      <if test="rcdDate != null" >
+        rcd_Date = #{rcdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keywordIsenable != null" >
+        keyword_IsEnable = #{keywordIsenable,jdbcType=INTEGER},
+      </if>
+      <if test="keywordRemarks1 != null" >
+        keyword_remarks1 = #{keywordRemarks1,jdbcType=CLOB},
+      </if>
+      <if test="keywordRemarks2 != null" >
+        keyword_remarks2 = #{keywordRemarks2,jdbcType=CLOB},
+      </if>
+      <if test="keywordRemarks3 != null" >
+        keyword_remarks3 = #{keywordRemarks3,jdbcType=CLOB},
+      </if>
+      <if test="keywordRemarks4 != null" >
+        keyword_remarks4 = #{keywordRemarks4,jdbcType=CLOB},
+      </if>
+    </set>
+    where keyword_Id = #{keywordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zbt.yqjk.pojo.Keyword" >
+    update TB_KEYWORD
+    set keyword_Feature = #{keywordFeature,jdbcType=VARCHAR},
+      keyword_name = #{keywordName,jdbcType=VARCHAR},
+      add_UserId = #{addUserid,jdbcType=BIGINT},
+      add_Date = #{addDate,jdbcType=TIMESTAMP},
+      rcd_UserId = #{rcdUserid,jdbcType=BIGINT},
+      rcd_Date = #{rcdDate,jdbcType=TIMESTAMP},
+      keyword_IsEnable = #{keywordIsenable,jdbcType=INTEGER},
+      keyword_remarks1 = #{keywordRemarks1,jdbcType=CLOB},
+      keyword_remarks2 = #{keywordRemarks2,jdbcType=CLOB},
+      keyword_remarks3 = #{keywordRemarks3,jdbcType=CLOB},      keyword_remarks4 = #{keywordRemarks4,jdbcType=CLOB}
+    where keyword_Id = #{keywordId,jdbcType=BIGINT}
+  </update> 
+ 
+  <select id="selectBykeyword"  resultMap="BaseResultMap" parameterType="com.zbt.yqjk.pojo.Keyword">
+    select 
+    <include refid="Base_Column_List" />
+    from TB_KEYWORD
+    where  keyword_Feature = #{keywordFeature,jdbcType=VARCHAR} AND keyword_IsEnable = 1    
+  </select>
+  
+</mapper>

@@ -1,0 +1,13 @@
+package com.zbt.yqjk.common;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class DateIntoStandardDate {
+
+	//数据库时间转化成标准时间，类型为String
+	public String getStandardDate(Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		return sdf.format(date);
+	}
+}

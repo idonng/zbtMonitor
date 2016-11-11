@@ -1,0 +1,17 @@
+package com.zbt.yqjk.dao;
+
+import com.zbt.yqjk.pojo.PublicOpinion;
+
+public interface IPublicOpinionDao {
+	int deleteByPrimaryKey(Long resultKy);
+
+    int insert(PublicOpinion record);
+
+    int insertSelective(PublicOpinion record);
+
+    PublicOpinion selectByPrimaryKey(Long resultKy);
+
+    int updateByPrimaryKeySelective(PublicOpinion record);
+
+    int updateByPrimaryKey(PublicOpinion record);
+}

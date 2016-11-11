@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+   <%
+	String url = request.getRequestURL().toString();
+	url = url.substring(0, url.lastIndexOf("/") + 1);
+	String baseUrl = url;
+	if (baseUrl.indexOf("page") < 0) {
+		baseUrl += "page/";
+	} else {
+		baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("page/") + 5);
+	}
+%>
+	<meta charset="UTF-8"/>
+    <title>首页 | zbtMonitor</title>
+</head>
+<frameset rows="8%,*" frameborder="no" border="0" framespacing="0">
+    <frame name="frametop" src="<%=url%>top.jsp" border="0px" scrolling="no" target="_self" noresize />
+    <frameset name="framebottom" cols="12%,*" frameborder="no" border="0" framespacing="0">
+        <frame name="frameleft" src="<%=url%>left.jsp" border="0px" scrolling="yes" target="_self" noresize />
+        <frame name="framemain" src="<%=url%>main.jsp" border="0px" scrolling="yes" target="_self" noresize />
+    </frameset>
+</frameset>
+</html>

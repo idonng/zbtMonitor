@@ -1,0 +1,26 @@
+package com.zbt.yqjk.common;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import net.sf.json.JSONException;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+public class TransType {
+
+	// 数据库时间转化成标准时间，类型为String
+	public static String getStandardDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		return sdf.format(date);
+	}
+
+	// 实体类转成json类型的String
+	public static String objectToJson(Object obj) throws JSONException,
+			IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonStr = mapper.writeValueAsString(obj);
+		return jsonStr;
+	}
+}

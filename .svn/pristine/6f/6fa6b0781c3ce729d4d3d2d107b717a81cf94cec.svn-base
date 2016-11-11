@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <%
+	String url = request.getRequestURL().toString();
+	url = url.substring(0, url.lastIndexOf("/") + 1);
+	String baseUrl = url;
+	if (baseUrl.indexOf("page") < 0) {
+		baseUrl += "page/";
+	} else {
+		baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("page/") + 5);
+	}
+%>
+<title>我的关注 | zbtMonitor</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="<%=baseUrl%>css/bootstrap.min.css" />
+<link rel="stylesheet" href="<%=baseUrl%>css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="<%=baseUrl%>css/uniform.css" />
+<link rel="stylesheet" href="<%=baseUrl%>css/select2.css" />
+<link rel="stylesheet" href="<%=baseUrl%>css/style.css" />
+<link rel="stylesheet" href="<%=baseUrl%>css/media.css" />
+<link href="<%=baseUrl%>font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<style>
+	.leading-out a{color: #fff !important;}
+	.check-all{text-align: left!important; }
+	tbody tr td:first-child{vertical-align: middle !important;}
+</style>
+
+</head>
+<body>
+
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 主页</a> </div>
+    <h1>我的关注</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+        
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+            <h5></h5>
+            <span class="label label-info leading-out"><a href="" data-toggle="modal" data-target="#leadOut">批量导出</a></span> </div>
+          <div class="widget-content ">
+            <table class="table table-bordered table-striped with-check">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
+                  <th class="check-all">全部关注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                  	<div class="article-post">
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+                  </td>
+                  
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                  	<div class="article-post">
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+                  </td>
+                  
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                  	<div class="article-post">
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+                  </td>
+                  
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                  	<div class="article-post">
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+                  </td>
+                  
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                  	<div class="article-post">
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+                  </td>
+                  
+                </tr>
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                  	<div class="article-post">
+		                  <h5>标题模板<small> <i class="icon-copy"></i>相同10条</small></h5>
+		                  <p><a href="#">摘要模板：This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a> </p>
+		                  <span class="user-info"> <i class="icon-time"></i>2016-10-24 10:20 【微信】  </span>
+		                </div>
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="leadOut">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">批量导出</h4>
+      </div>
+      <div class="modal-body">
+        <input type="file" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">确认</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--Footer-part-->
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2016 &copy; 步长制药. Copyright <a href="index.jsp">电商部</a>  </div>
+</div>
+<!--end-Footer-part-->
+<script src="<%=baseUrl%>js/jquery.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.ui.custom.js"></script> 
+<script src="<%=baseUrl%>js/bootstrap.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.uniform.js"></script> 
+<script src="<%=baseUrl%>js/select2.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.dataTables.min.js"></script> 
+<script src="<%=baseUrl%>js/matrix.js"></script> 
+<script src="<%=baseUrl%>js/tables.js"></script>
+</body>
+</html>

@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-validator.Checked=src/main/webapp/js/jquery.min.js,src/main/webapp/js/echarts.common.min.js
+validator.Checked=src/main/resources/temp.xml,src/main/webapp/page/libs/ligerUI/js/plugins/ligerToolBar.js,src/main/webapp/js/jquery.min.js,src/main/webapp/page/js/echarts.common.min.js,src/main/webapp/page/echarts/echarts.js,src/main/webapp/page/js/jquery.ui.custom.js,src/main/webapp/js/echarts.common.min.js,src/main/webapp/page/js/jquery.min.js,src/main/webapp/page/echarts/echarts-all.js
 validator.Unchecked=

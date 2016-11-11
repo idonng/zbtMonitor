@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <%
+	String url = request.getRequestURL().toString();
+	url = url.substring(0, url.lastIndexOf("/") + 1);
+	String baseUrl = url;
+	if (baseUrl.indexOf("page") < 0) {
+		baseUrl += "page/";
+	} else {
+		baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("page/") + 5);
+	}
+%>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>left page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="<%=baseUrl%>css/bootstrap.min.css" />
+		<link rel="stylesheet" href="<%=baseUrl%>css/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" href="<%=baseUrl%>css/fullcalendar.css" />
+		<link rel="stylesheet" href="<%=baseUrl%>css/style.css" />
+		<link rel="stylesheet" href="<%=baseUrl%>css/media.css" />
+		<link href="<%=baseUrl%>font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<%=baseUrl%>css/jquery.gritter.css" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+		</head>
+		<style>
+		#tab1,#tab2,#tab3{height: 300px;max-width: 100%;}
+		h1{padding: 20px;}
+		
+		</style>
+    </head>
+    <body>
+    	<!--sidebar-menu-->
+<div id="sidebar">
+  <ul >
+    <li class="active"><a href="<%=url%>main.jsp" target="framemain"><i class="icon icon-home"></i> <span>首页</span></a> </li>
+    <li class="submenu"> <a href="#" target="framemain"><i class="icon icon-th-list"></i> <span>舆情浏览</span></a>
+      <ul >
+        <li><a href="<%=url%>browse.jsp" target="framemain">企业敏感信息</a></li>
+        <li><a href="">企业领导信息</a></li>
+        <li><a href="">企业产品信息</a></li>
+      </ul>
+    </li>
+    <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>统计分析</span></a> </li>
+    <li><a href="tables.html"><i class="icon icon-th"></i> <span>舆情报告</span></a></li>
+    <li><a href="<%=url%>concern.jsp" target="framemain"><i class="icon icon-fullscreen"></i> <span>我的关注</span></a></li>
+  </ul>
+</div>
+<!--sidebar-menu-->
+
+
+<script src="<%=baseUrl%>js/excanvas.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.ui.custom.js"></script> 
+<script src="<%=baseUrl%>js/bootstrap.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.flot.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.flot.resize.min.js"></script> 
+<script src="<%=baseUrl%>js/jquery.peity.min.js"></script> 
+<script src="<%=baseUrl%>js/fullcalendar.min.js"></script> 
+<script src="<%=baseUrl%>js/matrix.js"></script> 
+<script src="<%=baseUrl%>js/dashboard.js"></script> 
+<script src="<%=baseUrl%>js/jquery.gritter.min.js"></script> 
+<script src="<%=baseUrl%>js/interface.js"></script> 
+<script src="<%=baseUrl%>js/chat.js"></script> 
+<script src="<%=baseUrl%>js/jquery.validate.js"></script> 
+<script src="<%=baseUrl%>js/form_validation.js"></script> 
+<script src="<%=baseUrl%>js/jquery.wizard.js"></script> 
+<script src="<%=baseUrl%>js/jquery.uniform.js"></script> 
+<script src="<%=baseUrl%>js/select2.min.js"></script> 
+<script src="<%=baseUrl%>js/popover.js"></script> 
+<script src="<%=baseUrl%>js/jquery.dataTables.min.js"></script> 
+<script src="<%=baseUrl%>js/tables.js"></script> 
+
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+package com.zbt.yqjk.service;
+
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+
+import com.github.abel533.echarts.Option;
+
+
+public interface IEchartsReportService {
+
+	public Option getpieOption(String title, List listName, List<Map<String, Object>> listValue) ;
+
+	public Option getLineOption(String title, List listX, List listY);
+
+}

@@ -1,0 +1,34 @@
+package com.zbt.yqjk.dao;
+
+import java.util.Date;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.zbt.yqjk.pojo.Keyword;
+import com.zbt.yqjk.pojo.PublicOpinion;
+
+public interface IPublicOpinionDao {
+	int deleteByPrimaryKey(Long resultKy);
+
+    int insert(PublicOpinion record);
+
+    int insertSelective(PublicOpinion record);
+
+    PublicOpinion selectByPrimaryKey(Long resultKy);
+
+    int updateByPrimaryKeySelective(PublicOpinion record);
+
+    int updateByPrimaryKey(PublicOpinion record);
+    
+    //根据关键词条集合获取分页的内容
+    List<PublicOpinion> getPublicOpinionBykeywords(@Param("resultType") int resultType,
+			@Param("begintime") Date begintime,@Param("endtime") Date endtime,
+			@Param("pageSize") int pageSize,@Param("pageNum") int pageNum,
+    		@Param("keywords") List<Keyword> keywords);
+    
+    //根据关键字词条集合获取总记录数
+    int getPublicOpinionRowsCount(@Param("resultType") int resultType,
+			@Param("begintime") Date begintime,@Param("endtime") Date endtime,
+    		@Param("keywords") List<Keyword> keywords);
+}

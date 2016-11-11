@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zbt.yqjk.dao.ITemplateDao" >
+  <resultMap id="ResultMap" type="com.zbt.yqjk.pojo.TemplateInfo" >
+    <id column="Temp_Id" property="tempId" jdbcType="INTEGER" />
+    <result column="Temp_Name" property="tempName" jdbcType="VARCHAR" />
+    <result column="Is_Default" property="isDefault" jdbcType="INTEGER" />
+    <result column="Is_Delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="Create_UserId" property="createUserid" jdbcType="INTEGER" />
+    <result column="Create_Date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="Rcd_UserId" property="rcdUserid" jdbcType="INTEGER" />
+    <result column="Rcd_Date" property="rcdDate" jdbcType="TIMESTAMP" />
+    <result column="Temp_Body" property="tempBody" jdbcType="CLOB" />
+    <result column="Temp_Remarks" property="tempRemarks" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Temp_Id, Temp_Name, Is_Default, Is_Delete, Create_UserId, Create_Date, Rcd_UserId, 
+    Rcd_Date, Temp_Body, Temp_Remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_TEMPLATE_INFO
+    where Temp_Id = #{tempId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByIsDefault" resultMap="ResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TB_TEMPLATE_INFO
+    where Is_Default = 1
+  </select>
+  
+  <select id="selectTemplate" parameterType="com.zbt.yqjk.pojo.TemplateInfo" resultMap="ResultMap" >
+	select 
+    <include refid="Base_Column_List" />
+    from TB_TEMPLATE_INFO
+    where Temp_Name=#{tempName} and Temp_Body=#{tempBody}
+	</select>
+	<select id="selectAll" parameterType="com.zbt.yqjk.pojo.TemplateInfo" resultMap="ResultMap" >
+	select 
+    <include refid="Base_Column_List" />
+    from TB_TEMPLATE_INFO
+    </select>
+ 
+  <insert id="insert" parameterType="com.zbt.yqjk.pojo.TemplateInfo" >
+    insert into TB_TEMPLATE_INFO (Temp_Name, Is_Default, 
+      Is_Delete, Create_UserId, Create_Date, Rcd_UserId,Rcd_Date ,
+      Temp_Body, Temp_Remarks)
+    values (#{tempName,jdbcType=VARCHAR}, #{isDefault,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=INTEGER}, #{createUserid,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{rcdUserid,jdbcType=BIGINT},#{rcdDate,jdbcType=TIMESTAMP}, #{tempBody,jdbcType=CLOB}, #{tempRemarks,jdbcType=CLOB})
+  </insert>
+  
+   <update id="isDefault" parameterType="com.zbt.yqjk.pojo.TemplateInfo" >
+     update TB_TEMPLATE_INFO
+    <set >
+       <if test="isDefault != null" >
+        Is_Default = #{isDefault,jdbcType=INTEGER},
+      </if>
+       <if test="rcdUserid != null" >
+       Rcd_UserId = #{rcdUserid,jdbcType=BIGINT},
+      </if>
+       <if test="rcdDate != null" >
+        Rcd_Date = #{rcdDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    	where Temp_Id =  #{tempId,jdbcType=BIGINT}
+  </update>
+   <update id="deleteByPrimaryKey" parameterType="com.zbt.yqjk.pojo.TemplateInfo" >
+   	 update TB_TEMPLATE_INFO
+    <set >
+       <if test="isDelete != null" >
+        Is_Delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+       <if test="rcdUserid != null" >
+       Rcd_UserId = #{rcdUserid,jdbcType=BIGINT},
+      </if>
+       <if test="rcdDate != null" >
+        Rcd_Date = #{rcdDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    	where Temp_Id =  #{tempId,jdbcType=BIGINT}
+  </update>
+   <update id="updateByPrimaryKeySelective" parameterType="com.zbt.yqjk.pojo.TemplateInfo" >
+    update TB_TEMPLATE_INFO
+    <set >
+      <if test="tempName != null" >
+        Temp_Name = #{tempName,jdbcType=VARCHAR},
+      </if>
+       <if test="isDefault != null" >
+        Is_Default = #{isDefault,jdbcType=INTEGER},
+      </if>
+       <if test="isDelete != null" >
+        Is_Delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+       <if test="createUserid != null" >
+     	Create_UserId = #{createUserid,jdbcType=BIGINT},
+      </if>
+       <if test="createDate != null" >
+        Create_Date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="rcdUserid != null" >
+       Rcd_UserId = #{rcdUserid,jdbcType=BIGINT},
+      </if>
+       <if test="rcdDate != null" >
+        Rcd_Date = #{rcdDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="tempBody != null" >
+        Temp_Body = #{tempBody,jdbcType=CLOB},
+      </if>
+      <if test="tempRemarks != null" >
+        Temp_Remarks = #{tempRemarks,jdbcType=CLOB}
+      </if>
+    </set>
+    	where Temp_Id =  #{tempId,jdbcType=BIGINT}
+  </update>
+</mapper>

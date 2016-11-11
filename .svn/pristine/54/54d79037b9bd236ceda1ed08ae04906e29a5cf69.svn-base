@@ -1,0 +1,44 @@
+package com.zbt.yqjk.service;
+
+import java.util.Date;
+import java.util.List;
+
+import com.zbt.yqjk.pojo.Keyword;
+import com.zbt.yqjk.pojo.PageBean;
+import com.zbt.yqjk.pojo.PublicOpinion;
+
+public interface IPublicOpinionService {
+	
+	//根据关键词条集合获取分页的内容
+	public List<PublicOpinion> getPublicOpinionBykeywords(List<Integer> resultTypes,Date begintime,
+			Date endtime,PageBean pageBean,List<Keyword> keywords);
+	
+	//根据关键字词条集合获取总记录数
+	public int getPublicOpinionRowsCount(List<Integer> resultTypes,Date begintime,
+			Date endtime,List<Keyword> keywords);
+	
+	//根据是否关注获取分页的内容
+    public List<PublicOpinion> getPublicOpinionByIsFocus(PageBean pageBean) ;
+    
+    //根据是否关注获取分页的总记录数
+    public int getPublicOpinionIsFocusCount();
+    
+    //根据主键集合获取需要导出的舆情数据集合
+    public List<PublicOpinion> getExportPublicOpinion(List<Long> resultKeys) ;
+    
+    //根据主键集合取消关注 
+    public int setCancelPublicOpinion(List<Long> resultKeys);
+	
+	//根据日期获取总记录数 
+	public int selectCountByDate(PublicOpinion record);
+    
+    //根据日期和情感分类获取总记录数 
+	public int selectCountByDateAndEmotion(PublicOpinion record);
+    
+    //根据日期和数据来源分类获取总记录数 
+	public int selectCountByResultType(PublicOpinion record);
+	
+	//根据日期和数据来源分类和情感分类获取总记录数 
+	public int selectCountByResultTypeAndEmotion(PublicOpinion record);
+
+}

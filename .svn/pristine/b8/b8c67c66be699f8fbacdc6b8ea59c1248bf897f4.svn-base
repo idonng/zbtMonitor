@@ -1,0 +1,61 @@
+package com.zbt.yqjk.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.zbt.yqjk.dao.ITemplateDao;
+import com.zbt.yqjk.pojo.Template;
+import com.zbt.yqjk.service.ITemplateService;
+
+
+@Service("templateService")
+public class TemplateServiceImpl implements ITemplateService {
+	@Resource
+	private ITemplateDao templateDao;
+	@Override
+	public Template selectByPrimaryKey(Long tempId) {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectByPrimaryKey(tempId);
+	}
+
+	public Template selectTemplate(Template record) {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectTemplate(record);
+	}
+
+	public int insert(Template record) {
+		// TODO Auto-generated method stub
+		return this.templateDao.insert(record);
+	}
+	
+	public int deleteByPrimaryKey(Template record) {
+		// TODO Auto-generated method stub
+		return this.templateDao.deleteByPrimaryKey(record);
+	}
+
+	public Template selectByIsDefault(int Default) {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectByIsDefault(Default);
+	}
+	
+	public int isDefault(Template record) {
+		// TODO Auto-generated method stub
+		
+		return this.templateDao.isDefault(record);
+	}
+	
+	public List<Template>  selectAll() {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectAll();
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Template record) {
+		// TODO Auto-generated method stub
+		return this.templateDao.updateByPrimaryKeySelective(record);
+	}
+
+}
