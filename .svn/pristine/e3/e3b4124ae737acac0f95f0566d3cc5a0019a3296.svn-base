@@ -1,0 +1,119 @@
+package com.zbt.yqjk.dao;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.zbt.yqjk.pojo.Keyword;
+import com.zbt.yqjk.pojo.PageBean;
+import com.zbt.yqjk.pojo.PublicOpinion;
+
+public interface IPublicOpinionDao {
+	int deleteByPrimaryKey(Long resultKy);
+
+    int insert(PublicOpinion record);
+
+    int insertSelective(PublicOpinion record);
+    
+    //根据日期获取总记录数 
+    int selectCountByDate(PublicOpinion record);
+    
+    //根据日期和情感分类获取总记录数 
+    int selectCountByDateAndEmotion(PublicOpinion record);
+    
+    //根据日期和数据来源分类获取总记录数 
+    int selectCountByResultType(PublicOpinion record);
+    
+    //根据日期和数据来源分类和情感分类获取总记录数 
+  	int selectCountByResultTypeAndEmotion(PublicOpinion record);
+
+    PublicOpinion selectByPrimaryKey(Long resultKy);
+
+    int updateByPrimaryKeySelective(PublicOpinion record);
+
+    int updateByPrimaryKey(PublicOpinion record);
+    
+    //根据关键词条集合获取分页的内容
+    List<PublicOpinion> getPublicOpinionBykeywords(@Param("resultTypes") List<Integer> resultTypes,
+			@Param("begintime") Date begintime,@Param("endtime") Date endtime,
+			@Param("pageBean") PageBean pageBean,@Param("keywords") List<Keyword> keywords);
+    
+    //根据关键字词条集合获取总记录数
+    int getPublicOpinionRowsCount(@Param("resultTypes") List<Integer> resultTypes,
+			@Param("begintime") Date begintime,@Param("endtime") Date endtime,
+    		@Param("keywords") List<Keyword> keywords);
+    
+    //根据key集合来删除对应记录
+  	int delPublicOpinion(@Param("keys") List<Long> keys); 
+  	
+  	//根据key集合来收藏对应记录
+  	int focusPublicOpinion(@Param("keys") List<Long> keys);
+  	
+  	//根据key集合来将对应记录改为正面分类
+  	int goodPublicOpinion(@Param("keys") List<Long> keys);
+    
+  	//根据key集合来将对应记录改为中立分类
+  	int midPublicOpinion(@Param("keys") List<Long> keys);
+    
+  	//根据key集合来修改对应记录为负面分类
+  	int badPublicOpinion(@Param("keys") List<Long> keys);
+    
+  	//根据是否关注获取分页的内容
+    List<PublicOpinion> getPublicOpinionByIsFocus(@Param("pageBean") PageBean pageBean);
+    
+    //根据是否关注获取分页的总记录数
+    int getPublicOpinionIsFocusCount();
+    
+    //根据主键集合获取需要导出的舆情数据集合
+    List<PublicOpinion> getExportPublicOpinion(@Param("resultKeys") List<Long> resultKeys);
+    
+    //根据主键集合取消关注 
+    int setCancelPublicOpinion(@Param("resultKeys") List<Long> resultKeys);
+    
+    //根据媒体类型、情感分类获取全部舆情数据集合
+    List<PublicOpinion> getTop10PublicOpinion(@Param("resultType") String resultType, @Param("resultEmotion") String resultEmotion);
+    
+    //根据日期和是否关注获取收藏内容
+    List<PublicOpinion> selectByDateAndIsfocus(PublicOpinion record);
+    
+    List<Map<String, Object>> getAnalysisData(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType1") String mediaType1,@Param("mediaType2") String mediaType2,
+    		@Param("mediaType3") String mediaType3,@Param("mediaType4") String mediaType4,
+    		@Param("mediaType5") String mediaType5);
+    
+    List<Map<String, Object>> getAnalysisData2(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType1") String mediaType1,@Param("mediaType2") String mediaType2,
+    		@Param("mediaType3") String mediaType3,@Param("mediaType4") String mediaType4,
+    		@Param("mediaType5") String mediaType5);
+    
+    List<Map<String, Object>> getEmoLineData(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType1") String mediaType1,@Param("mediaType2") String mediaType2,
+    		@Param("mediaType3") String mediaType3,@Param("mediaType4") String mediaType4,
+    		@Param("mediaType5") String mediaType5);
+    List<Map<String, Object>> getEmoLineData2(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType1") String mediaType1,@Param("mediaType2") String mediaType2,
+    		@Param("mediaType3") String mediaType3,@Param("mediaType4") String mediaType4,
+    		@Param("mediaType5") String mediaType5);
+    
+    List<Map<String, Object>> getAnalysisBarData(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType1") String mediaType1,@Param("mediaType2") String mediaType2,
+    		@Param("mediaType3") String mediaType3,@Param("mediaType4") String mediaType4,
+    		@Param("mediaType5") String mediaType5);
+    List<Map<String, Object>> getAnalysisBarDatatest(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType") String mediaType);
+    List<Map<String, Object>> getAnalysisPieData(@Param("resultType") String resultType,
+    		@Param("begintime") Date begintime,@Param("endtime") Date endtime, 
+    		@Param("mediaType1") String mediaType1,@Param("mediaType2") String mediaType2,
+    		@Param("mediaType3") String mediaType3,@Param("mediaType4") String mediaType4,
+    		@Param("mediaType5") String mediaType5);
+    List<Map<String,String>> getMediaTypeData();
+
+}

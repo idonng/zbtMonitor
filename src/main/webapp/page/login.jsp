@@ -79,8 +79,8 @@
 				<div class="main_input_box">
 					<span class="add-on bg_lg"><i class="icon-user"></i> </span><input
 						type="text" placeholder="账号" name="userAdmin" id="userAdmin" 
-						value="10000"
-						value="10000" />
+					 
+						 />
 				</div>
 			</div>
 		</div>
@@ -89,8 +89,7 @@
 				<div class="main_input_box">
 					<span class="add-on bg_ly"><i class="icon-lock"></i> </span><input
 						type="password" placeholder="密码" name="userPwd" id="userPwd" 
-						value="1"
-						value="1" />
+						  />
 				</div>
 			</div>
 		</div>

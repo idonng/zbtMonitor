@@ -1,0 +1,246 @@
+package com.zbt.yqjk.service.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import com.zbt.yqjk.dao.IPublicOpinionDao;
+import com.zbt.yqjk.service.IAnalysisService;
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.axis.AxisLine;
+import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.axis.SplitLine;
+import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.Magic;
+import com.github.abel533.echarts.code.Orient;
+import com.github.abel533.echarts.code.PointerType;
+import com.github.abel533.echarts.code.Tool;
+import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.code.X;
+import com.github.abel533.echarts.code.Y;
+import com.github.abel533.echarts.data.PieData;
+import com.github.abel533.echarts.feature.MagicType;
+import com.github.abel533.echarts.json.GsonOption;
+import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
+import com.github.abel533.echarts.series.Pie;
+import com.github.abel533.echarts.series.Series;
+import com.github.abel533.echarts.style.LineStyle;
+
+@Service("analysisService")
+public class AnalysisServiceImp implements IAnalysisService {
+	@Resource
+	private IPublicOpinionDao publicOpinionDao;
+	
+	@Override
+	public Option getAnalysisData(String resultType, Date begintime,
+			Date endtime, String mediaType1,String mediaType2,String mediaType3,String mediaType4,String mediaType5) {
+		GsonOption option = new GsonOption(); 
+			
+		option.title().text("总体舆情走势").x(X.center);
+		option.legend().data("总体舆情数量").x(X.center).y(Y.bottom).borderWidth(1);
+		option.legend().data("微博").x(X.center).y(Y.bottom).borderWidth(1);
+		option.legend().data("新闻").x(X.center).y(Y.bottom).borderWidth(1);
+		option.legend().data("论坛").x(X.center).y(Y.bottom).borderWidth(1);
+		option.legend().data("博客").x(X.center).y(Y.bottom).borderWidth(1);
+		option.legend().data("微信").x(X.center).y(Y.bottom).borderWidth(1);
+	     //提示框  
+        option.tooltip().trigger(Trigger.axis);  
+        option.tooltip().axisPointer().type(PointerType.shadow);  
+        //工具栏  
+        option.toolbox().show(true).orient(Orient.vertical)
+        .x(X.right).y(Y.center)
+        .feature(Tool.mark,Tool.dataView,Tool.restore,Tool.saveAsImage,
+        		new MagicType(Magic.bar,Magic.line)).padding(20); 
+		option.yAxis(new ValueAxis().name("数量")
+				.boundaryGap(0d,0.01)
+				.axisLine(new AxisLine().show(true).lineStyle(new LineStyle().width(0)))
+				.min(0));	
+		
+		option.calculable(true); 
+		CategoryAxis category = new CategoryAxis()	
+		.splitLine(new SplitLine().show(false))
+		.axisLine(new AxisLine().onZero(false));
+		//.axisLabel(new AxisLabel().rotate(60))
+				
+		option.grid().borderWidth(0).x(50).y(50).x2(50).y2(50);
+		Line line = new Line("总体舆情数量").smooth(true);
+		Line line1 = new Line("微博").smooth(true);
+		Line line2 = new Line("新闻").smooth(true);
+		Line line3 = new Line("论坛").smooth(true);
+		Line line4 = new Line("博客").smooth(true);
+		Line line5 = new Line("微信").smooth(true);
+		@SuppressWarnings("rawtypes")
+		List<Series> seriess = new ArrayList<Series>() ;
+		List<Map<String, Object>> list;
+		if(resultType.equals("当天")){
+			 list= publicOpinionDao.getAnalysisData(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);
+		}
+		else{
+			 list= publicOpinionDao.getAnalysisData2(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);
+		}
+		for (Map<String, Object> objectMap : list) {  
+	        //设置类目  
+			category.data(objectMap.get("date"));  
+	        //类目对应的折线图  
+	        line.data(objectMap.get("num"));
+	        line1.data(objectMap.get("wb"));
+	        line2.data(objectMap.get("xw"));
+	        line3.data(objectMap.get("lt"));
+	        line4.data(objectMap.get("bk"));
+	        line5.data(objectMap.get("wx"));
+	    }
+		seriess.add(line);
+		seriess.add(line1);
+		seriess.add(line2);
+		seriess.add(line3);
+		seriess.add(line4);
+		seriess.add(line5);
+		//设置x轴为类目轴
+		option.xAxis(category);
+		//设置数据
+		option.series(seriess);
+		return option;
+	}
+	
+	@Override
+	public Option getEmoLineData(String resultType, Date begintime,
+			Date endtime, String mediaType1,String mediaType2,String mediaType3,String mediaType4,String mediaType5) {
+		GsonOption option = new GsonOption(); 
+			
+		option.title().text("不同属性走势图").x(X.center);
+		option.legend().data("正面属性").x(X.center).y(Y.bottom).borderWidth(1);
+		option.legend().data("负面属性").x(X.center).y(Y.bottom).borderWidth(1);
+	     //提示框  
+        option.tooltip().trigger(Trigger.axis);  
+        option.tooltip().axisPointer().type(PointerType.shadow);  
+        //工具栏  
+        option.toolbox().show(true).orient(Orient.vertical).x(X.right).y(Y.center).feature(Tool.mark,Tool.dataView,Tool.restore,Tool.saveAsImage,new MagicType(Magic.bar,Magic.line)).padding(20); 
+		option.yAxis(new ValueAxis().name("数量")
+				.boundaryGap(0d,0.01)
+				.axisLine(new AxisLine().show(true).lineStyle(new LineStyle().width(0)))
+				.min(0));	
+		
+		option.calculable(true); 
+		CategoryAxis category = new CategoryAxis()	
+		.splitLine(new SplitLine().show(false))
+		.axisLine(new AxisLine().onZero(false));
+		//.axisLabel(new AxisLabel().rotate(60))
+				
+		option.grid().borderWidth(0).x(50).y(50).x2(50).y2(50);
+		
+		Line line = new Line("正面属性").smooth(true);		
+		Line linez = new Line("负面属性").smooth(true);
+		@SuppressWarnings("rawtypes")
+		List<Series> seriess = new ArrayList<Series>() ;
+		List<Map<String, Object>> list;
+		if(resultType.equals("当天"))
+		{
+			list= publicOpinionDao.getEmoLineData(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);
+		}
+		else
+		{
+			list= publicOpinionDao.getEmoLineData2(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);
+		}		
+		for (Map<String, Object> objectMap : list) {  
+	        //设置类目  
+			category.data(objectMap.get("date"));  
+	        //类目对应的折线图
+			line.data(objectMap.get("zm"));	      
+			linez.data(objectMap.get("fm"));
+	    }
+		seriess.add(line);
+		seriess.add(linez);
+		//line.name("负面属性").type(SeriesType.line).data(line.data(1));
+		//设置x轴为类目轴
+		option.xAxis(category);
+		//设置数据
+		option.series(seriess);
+		return option;
+	}
+	
+	
+	@Override
+	public Option getAnalysisBarData(String resultType, Date begintime,
+			Date endtime, String mediaType1,String mediaType2,String mediaType3,String mediaType4,String mediaType5) { 
+		GsonOption option = new GsonOption(); 			
+		option.title("舆情媒体分类").tooltip(Trigger.axis).legend("数量(条)");  
+
+		Bar bar=new Bar("数量(条)");
+		option.yAxis(new ValueAxis().boundaryGap(0d, 0.01));
+		CategoryAxis category = new CategoryAxis();
+		
+	    //工具栏  
+        option.toolbox().show(true).orient(Orient.vertical).x(X.right).y(Y.center).feature(Tool.mark,Tool.dataView,Tool.restore,Tool.saveAsImage,new MagicType(Magic.bar,Magic.line)).padding(20);
+        option.calculable(true);
+        List<Map<String, Object>> list= publicOpinionDao.getAnalysisBarData(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);        
+		for (Map<String, Object> objectMap : list)
+		{			
+	        category.data(objectMap.get("type"));
+	        bar.data(objectMap.get("num"));
+	    }		
+		//设置x轴为类目轴
+		option.xAxis(category);
+		//设置数据
+		option.series(bar);
+		return option;
+	}
+	
+	@Override
+	public Option getAnalysisPieData(String resultType, Date begintime,
+			Date endtime, String mediaType1,String mediaType2,String mediaType3,String mediaType4,String mediaType5) {
+		GsonOption option = new GsonOption(); 			
+		option.title("情感比例图").tooltip(Trigger.item);
+		option.tooltip().formatter("{b} : {c} ({d}%)");
+		option.legend().orient(Orient.vertical);		
+		//option.legend().data("未分类","正面","负面","中性");
+		Pie pie = new Pie();
+	    //工具栏  
+        option.toolbox().show(true).orient(Orient.vertical).x(X.right).y(Y.center).feature(Tool.mark,Tool.dataView,Tool.restore,Tool.saveAsImage).padding(20);
+        option.calculable(true);
+        option.itemStyle().emphasis().shadowBlur(10).shadowOffsetX(0);
+        
+        List<Map<String, Object>> list= publicOpinionDao.getAnalysisPieData(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);
+        
+		for (Map<String, Object> objectMap : list)
+		{
+			pie.data(new PieData(objectMap.get("emo_type").toString(), objectMap.get("num"))); 
+	    }
+		  
+	    
+		//设置数据
+		option.series(pie);
+		return option;
+	}
+	@Override
+	public Option getAnalysisMedPieData(String resultType, Date begintime,
+			Date endtime, String mediaType1,String mediaType2,String mediaType3,String mediaType4,String mediaType5) {
+		GsonOption option = new GsonOption(); 			
+		option.title("媒体比例图").tooltip(Trigger.item);
+		option.tooltip().formatter("{b} : {c} ({d}%)");
+		option.legend().orient(Orient.vertical);		
+		//option.legend().data("未分类","正面","负面","中性");
+		Pie pie = new Pie();
+	    //工具栏  
+        option.toolbox().show(true).orient(Orient.vertical).x(X.right).y(Y.center).feature(Tool.mark,Tool.dataView,Tool.restore,Tool.saveAsImage).padding(20);
+        option.calculable(true);
+        option.itemStyle().emphasis().shadowBlur(10).shadowOffsetX(0);
+        
+        List<Map<String, Object>> list= publicOpinionDao.getAnalysisBarData(resultType, begintime,endtime, mediaType1, mediaType2, mediaType3, mediaType4, mediaType5);
+        
+		for (Map<String, Object> objectMap : list)
+		{
+			pie.data(new PieData(objectMap.get("type").toString(), objectMap.get("num"))); 
+	    }
+		  
+	    
+		//设置数据
+		option.series(pie);
+		return option;
+	}
+}
+

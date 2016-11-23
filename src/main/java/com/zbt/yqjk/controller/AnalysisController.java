@@ -1,0 +1,316 @@
+package com.zbt.yqjk.controller;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.github.abel533.echarts.*;
+import com.zbt.yqjk.common.TransType;
+import com.zbt.yqjk.service.IAnalysisService;
+
+
+@Controller
+@RequestMapping("/page")
+public class AnalysisController {
+	@Resource
+	private IAnalysisService AnalysisService;	
+	private static final Logger logger = Logger.getLogger(AnalysisController.class);
+	@RequestMapping("/overall.do")
+	@ResponseBody
+	public String GetLineData(String timeType,
+			Date startDate, Date endDate,
+			String mediaType1,
+			String mediaType2,
+			String mediaType3,
+			String mediaType4,
+			String mediaType5,
+			HttpServletRequest request,
+			HttpServletResponse response)
+	{	
+		String result="";		
+		//查询的开始时间与结束时间
+		Date begintime = null;
+		Date endtime = null;
+		if(timeType.contains("#")){
+			begintime = java.sql.Date.valueOf(timeType.split("#")[0]);
+			endtime = TransType.getDayAfter(timeType.split("#")[1]);
+		}else if(timeType.equals("当天")){
+			begintime = TransType.getToday();
+			endtime = TransType.getAfter();
+		}else if(timeType.equals("一周内")){
+			begintime = TransType.getOldWeek();
+			endtime = TransType.getAfter();
+		}
+		//构建option对象
+		Option option = new Option();
+		try
+		{				
+			option = this.AnalysisService.getAnalysisData(timeType,begintime,endtime,mediaType1,mediaType2,mediaType3,mediaType4,mediaType5);
+			//json转换，设置null值不输出
+			JsonConfig jsonConfig = new JsonConfig();
+	        PropertyFilter filter = new PropertyFilter() {
+	                public boolean apply(Object object, String fieldName, Object fieldValue) {
+	                if(fieldValue instanceof List){
+	                    @SuppressWarnings("unchecked")
+						List<Object> list = (List<Object>) fieldValue;
+	                    if (list.size()==0) {
+	                        return true;
+	                    }
+	                }
+	                return null == fieldValue || "".equals(fieldValue);
+	                }
+	        };
+	        jsonConfig.setJsonPropertyFilter(filter);
+	        JSONObject json = JSONObject.fromObject(option,jsonConfig);	        
+			result = json.toString();
+		}
+		catch(Exception e)
+		{	
+			e.printStackTrace();
+			logger.error("总体舆情数据查询失败！",e);
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping("/overbar.do")
+	@ResponseBody
+	public String GetBarData(String timeType,
+			Date startDate, Date endDate,
+			String mediaType1,
+			String mediaType2,
+			String mediaType3,
+			String mediaType4,
+			String mediaType5,
+			HttpServletRequest request,
+			HttpServletResponse response)
+	{	
+		String result="";
+		
+		//查询的开始时间与结束时间
+		Date begintime = null;
+		Date endtime = null;
+		if(timeType.contains("#")){
+			begintime = java.sql.Date.valueOf(timeType.split("#")[0]);
+			endtime = TransType.getDayAfter(timeType.split("#")[1]);
+		}else if(timeType.equals("当天")){
+			begintime = TransType.getToday();
+			endtime = TransType.getAfter();
+		}else if(timeType.equals("一周内")){
+			begintime = TransType.getOldWeek();
+			endtime = TransType.getAfter();
+		}
+		Option option = new Option();
+		try
+		{				
+			option = this.AnalysisService.getAnalysisBarData(timeType,begintime,endtime,mediaType1,mediaType2,mediaType3,mediaType4,mediaType5);
+			//json转换，设置null值不输出
+			JsonConfig jsonConfig = new JsonConfig();
+	        PropertyFilter filter = new PropertyFilter() {
+	                public boolean apply(Object object, String fieldName, Object fieldValue) {
+	                if(fieldValue instanceof List){
+	                    @SuppressWarnings("unchecked")
+						List<Object> list = (List<Object>) fieldValue;
+	                    if (list.size()==0) {
+	                        return true;
+	                    }
+	                }
+	                return null == fieldValue || "".equals(fieldValue);
+	                }
+	        };
+	        jsonConfig.setJsonPropertyFilter(filter);
+	        JSONObject json = JSONObject.fromObject(option,jsonConfig);
+			result = json.toString();
+		}
+		catch(Exception e)
+		{	
+			e.printStackTrace();
+			logger.error("舆情媒体分类数据查询失败！",e);
+		}
+		return result;
+	}
+	
+	
+	@RequestMapping("/overemoline.do")
+	@ResponseBody
+	public String GetEmoData(String timeType,
+			Date startDate, Date endDate,
+			String mediaType1,
+			String mediaType2,
+			String mediaType3,
+			String mediaType4,
+			String mediaType5,
+			HttpServletRequest request,
+			HttpServletResponse response)
+	{	
+		String result="";
+		
+		//查询的开始时间与结束时间
+		Date begintime = null;
+		Date endtime = null;
+		if(timeType.contains("#")){
+			begintime = java.sql.Date.valueOf(timeType.split("#")[0]);
+			endtime = TransType.getDayAfter(timeType.split("#")[1]);
+		}else if(timeType.equals("当天")){
+			begintime = TransType.getToday();
+			endtime = TransType.getAfter();
+		}else if(timeType.equals("一周内")){
+			begintime = TransType.getOldWeek();
+			endtime = TransType.getAfter();
+		}
+		Option option = new Option();
+		try
+		{				
+			option = this.AnalysisService.getEmoLineData(timeType,begintime,endtime,mediaType1,mediaType2,mediaType3,mediaType4,mediaType5);
+			//json转换，设置null值不输出
+			JsonConfig jsonConfig = new JsonConfig();
+	        PropertyFilter filter = new PropertyFilter() {
+	                public boolean apply(Object object, String fieldName, Object fieldValue) {
+	                if(fieldValue instanceof List){
+	                    @SuppressWarnings("unchecked")
+						List<Object> list = (List<Object>) fieldValue;
+	                    if (list.size()==0) {
+	                        return true;
+	                    }
+	                }
+	                return null == fieldValue || "".equals(fieldValue);
+	                }
+	        };
+	        jsonConfig.setJsonPropertyFilter(filter);
+	        JSONObject json = JSONObject.fromObject(option,jsonConfig);
+			result = json.toString();
+		}
+		catch(Exception e)
+		{	
+			e.printStackTrace();
+			logger.error("不同属性走势数据查询失败！",e);
+		}
+		return result;
+	}
+	
+	
+	@RequestMapping("/overmedpie.do")
+	@ResponseBody
+	public String GetMedpieData(String timeType,
+			Date startDate, Date endDate,
+			String mediaType1,
+			String mediaType2,
+			String mediaType3,
+			String mediaType4,
+			String mediaType5,
+			HttpServletRequest request,
+			HttpServletResponse response)
+	{	
+		String result="";
+		
+		//查询的开始时间与结束时间
+		Date begintime = null;
+		Date endtime = null;
+		if(timeType.contains("#")){
+			begintime = java.sql.Date.valueOf(timeType.split("#")[0]);
+			endtime = TransType.getDayAfter(timeType.split("#")[1]);
+		}else if(timeType.equals("当天")){
+			begintime = TransType.getToday();
+			endtime = TransType.getAfter();
+		}else if(timeType.equals("一周内")){
+			begintime = TransType.getOldWeek();
+			endtime = TransType.getAfter();
+		}
+		Option option = new Option();
+		try
+		{				
+			option = this.AnalysisService.getAnalysisMedPieData(timeType,begintime,endtime,mediaType1,mediaType2,mediaType3,mediaType4,mediaType5);
+			//json转换，设置null值不输出
+			JsonConfig jsonConfig = new JsonConfig();
+		    PropertyFilter filter = new PropertyFilter() {
+		            public boolean apply(Object object, String fieldName, Object fieldValue) {
+			               if(fieldValue instanceof List){
+			                    @SuppressWarnings("unchecked")
+								List<Object> list = (List<Object>) fieldValue;
+			                    if (list.size()==0) {
+			                        return true;
+			                    }
+			                }
+			                return null == fieldValue || "".equals(fieldValue);
+			                }
+			        };
+			        jsonConfig.setJsonPropertyFilter(filter);
+			        JSONObject json = JSONObject.fromObject(option,jsonConfig);
+					result = json.toString();
+				}
+				catch(Exception e)
+				{	
+					e.printStackTrace();
+					logger.error("媒体比例图数据查询失败！",e);
+				}
+		return result;
+	}
+	
+	@RequestMapping("/overpie.do")
+	@ResponseBody
+	public String GetPieData(String timeType,
+			Date startDate, Date endDate,
+			String mediaType1,
+			String mediaType2,
+			String mediaType3,
+			String mediaType4,
+			String mediaType5,
+			HttpServletRequest request,
+			HttpServletResponse response)
+	{		
+		String result="";
+		
+		//查询的开始时间与结束时间
+		Date begintime = null;
+		Date endtime = null;
+		if(timeType.contains("#")){
+			begintime = java.sql.Date.valueOf(timeType.split("#")[0]);
+			endtime = TransType.getDayAfter(timeType.split("#")[1]);
+		}else if(timeType.equals("当天")){
+			begintime = TransType.getToday();
+			endtime = TransType.getAfter();
+		}else if(timeType.equals("一周内")){
+			begintime = TransType.getOldWeek();
+			endtime = TransType.getAfter();
+		}		
+		Option option = new Option();
+		try
+		{				
+			option = this.AnalysisService.getAnalysisPieData(timeType,begintime,endtime,mediaType1,mediaType2,mediaType3,mediaType4,mediaType5);
+			//json转换，设置null值不输出
+			JsonConfig jsonConfig = new JsonConfig();
+	        PropertyFilter filter = new PropertyFilter() {
+	                public boolean apply(Object object, String fieldName, Object fieldValue) {
+	                if(fieldValue instanceof List){
+	                    @SuppressWarnings("unchecked")
+						List<Object> list = (List<Object>) fieldValue;
+	                    if (list.size()==0) {
+	                        return true;
+	                    }
+	                }
+	                return null == fieldValue || "".equals(fieldValue);
+	                }
+	        };
+	        jsonConfig.setJsonPropertyFilter(filter);
+	        JSONObject json = JSONObject.fromObject(option,jsonConfig);
+			result = json.toString();
+		}
+		catch(Exception e)
+		{	
+			e.printStackTrace();
+			logger.error("情感比例图数据查询失败！",e);
+		}
+		return result;
+	}
+}

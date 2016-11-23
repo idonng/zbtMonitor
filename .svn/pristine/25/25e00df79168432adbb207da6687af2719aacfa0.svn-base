@@ -1,0 +1,199 @@
+package com.zbt.yqjk.controller;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zbt.yqjk.common.ExportWord;
+import com.zbt.yqjk.pojo.TemplateInfo;
+import com.zbt.yqjk.pojo.User;
+import com.zbt.yqjk.service.ITemplateService;
+
+@Controller("templateController")
+@RequestMapping("/page")
+public class TemplateController {
+	
+	private static final Logger logger = Logger.getLogger(TemplateController.class);
+	
+	static SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm"); //获取系统时间
+	
+	@Resource
+	private ITemplateService templateService;
+	
+	@RequestMapping("/insertTemplate.do")
+	@ResponseBody
+	public String insert(@RequestParam("tempName") String tempName, @RequestParam("tempBody") String tempBody,@RequestParam("isDefault")String isDefault,
+			HttpServletRequest request,HttpServletResponse response){
+		TemplateInfo template=null;
+		//如果默认值为1，则将其他默认值设为0
+		int Default=Integer.parseInt(isDefault);
+		if(Default==1){
+			template=templateService.selectByIsDefault(1);
+			if(template!=null){
+				isNotDefault(template,template.getTempId());
+				Default=1;
+			}else {
+				Default=0;
+			}
+		}
+		template=new TemplateInfo();
+		template.setIsDefault(Default);
+		template.setTempName(tempName);
+		template.setTempBody(tempBody);
+		try {
+			template.setCreateDate(sdf.parse(sdf.format(new Date())));
+			template.setRcdDate(sdf.parse(sdf.format(new Date())));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("日期转换失败！",e);
+		}
+		//User把值传到session里
+		User user=(User)request.getSession().getAttribute("user");
+		template.setCreateUserid((long) 1);
+		template.setRcdUserid((long) 1);
+//		template.setCreateUserid(user.getUserId());
+//		template.setRcdUserid(user.getUserId());
+		//设置未删除
+		template.setIsDelete(1);
+		
+		templateService.insert(template);
+		return "ok"; 
+	}
+	
+	@RequestMapping("/selectAllTemplate.do")
+	@ResponseBody
+	public List<TemplateInfo> selectAll(HttpServletRequest request,HttpServletResponse response){
+		
+		List<TemplateInfo> templist=templateService.selectAll();
+		
+		TemplateInfo template=templateService.selectByIsDefault(1);
+		//将默认模板名称传给session，前台单选框设置选中
+		request.getSession().setAttribute("defaltTemp", template.getTempName());
+		//前台展示模板
+		request.getSession().setAttribute("templist", templist);
+		
+		return templist; 
+	}
+	
+	@ResponseBody
+	@RequestMapping("/tempById")
+	public TemplateInfo tempById(@RequestParam("tempId") String tempId,HttpServletRequest request,Model model){
+		
+		TemplateInfo tempById=templateService.selectByPrimaryKey(Long.parseLong(tempId));
+		
+		request.getSession().setAttribute("tempById", tempById);
+		
+		return tempById;
+	}
+	
+	@RequestMapping("/updateTemplate.do")
+	@ResponseBody
+	public String update(@RequestParam("tempName") String tempName, @RequestParam("tempBody") String tempBody,@RequestParam("isDefault")String isDefault,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		TemplateInfo template=null;
+		//如果默认值为1，则将其他默认值设为0
+		int Default=Integer.parseInt(isDefault);
+		if(Default==1){
+			template=templateService.selectByIsDefault(1);
+			if(template!=null){
+				isNotDefault(template,template.getTempId());
+				Default=1;
+			}else {
+				Default=0;
+			}
+		}
+		template=new TemplateInfo();
+		template.setIsDefault(Default);
+		template.setTempName(tempName);
+		template.setTempBody(tempBody);
+		//User把值传到session里
+		User user=(User)request.getSession().getAttribute("user");
+		template.setRcdUserid(user.getUserId());
+		try {
+			template.setRcdDate(sdf.parse(sdf.format(new Date())));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("最近操作日期转换失败！",e);
+		}
+		TemplateInfo temp =(TemplateInfo)request.getSession().getAttribute("temp");
+		template.setTempId(temp.getTempId());
+		
+		templateService.updateByPrimaryKeySelective(template);
+		return "ok"; 
+	}
+	
+	@RequestMapping("/deleteTemplate.do")
+	@ResponseBody
+	public String delete(@RequestParam("tempId") String tempId,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		TemplateInfo template=new TemplateInfo();
+		template.setIsDelete(0);
+		//User把值传到session里
+		User user=(User)request.getSession().getAttribute("user");
+		template.setRcdUserid(user.getUserId());
+		try {
+			template.setRcdDate(sdf.parse(sdf.format(new Date())));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("最近操作日期转换失败！",e);
+		}
+		template.setTempId(Long.parseLong(tempId));
+		templateService.deleteByPrimaryKey(template);
+		return "ok"; 
+	}
+	
+	@RequestMapping("/isDefaultTemplate.do")
+	@ResponseBody
+	public TemplateInfo isDefault(@RequestParam("tempId") String tempId,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		TemplateInfo template=null;
+		//判断如果有默认值，将其修改为0
+		template=templateService.selectByIsDefault(1);
+		if(template!=null){
+			isNotDefault(template,template.getTempId());
+		}
+		template=new TemplateInfo();
+		//设置默认值为1
+		template.setIsDefault(1);
+		//User把值传到session里
+		User user=(User)request.getSession().getAttribute("user");
+		template.setRcdUserid(user.getUserId());
+		try {
+			template.setRcdDate(sdf.parse(sdf.format(new Date())));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("最近操作日期转换失败！",e);
+		}
+		template.setTempId(Long.parseLong(tempId));
+		templateService.isDefault(template);
+		
+		return template; 
+	}
+	//将其他默认模板的属性变成0
+	public String isNotDefault(TemplateInfo template,Long tempId){
+		template.setIsDefault(0);
+		template.setTempId(tempId);
+		templateService.isDefault(template);
+		return "ok"; 
+	}
+}

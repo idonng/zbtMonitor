@@ -1,508 +1,416 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zbt.yqjk.dao.IPublicOpinionDao" >
-  <resultMap id="BaseResultMap" type="com.zbt.yqjk.pojo.PublicOpinion" >
-    <id column="result_Ky" property="resultKy" jdbcType="BIGINT" />
-    <result column="result_UrlMd5" property="resultUrlmd5" jdbcType="VARCHAR" />
-    <result column="result_Title" property="resultTitle" jdbcType="VARCHAR" />
-    <result column="result_Source" property="resultSource" jdbcType="VARCHAR" />
-    <result column="result_Type" property="resultType" jdbcType="INTEGER" />
-    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
-    <result column="result_Author" property="resultAuthor" jdbcType="VARCHAR" />
-    <result column="result_Forwarded" property="resultForwarded" jdbcType="INTEGER" />
-    <result column="result_Comments" property="resultComments" jdbcType="INTEGER" />
-    <result column="Published_Date" property="publishedDate" jdbcType="TIMESTAMP" />
-    <result column="FCrawl_Date" property="fcrawlDate" jdbcType="TIMESTAMP" />
-    <result column="RCrawl_Date" property="rcrawlDate" jdbcType="TIMESTAMP" />
-    <result column="result_Emotion" property="resultEmotion" jdbcType="INTEGER" />
-    <result column="result_Effective" property="resultEffective" jdbcType="INTEGER" />
-    <result column="result_IsRead" property="resultIsread" jdbcType="INTEGER" />
-    <result column="result_IsFocus" property="resultIsfocus" jdbcType="INTEGER" />
-    <result column="result_Url" property="resultUrl" jdbcType="CLOB" />
-    <result column="result_Body" property="resultBody" jdbcType="CLOB" />
-    <result column="result_Remarks1" property="resultRemarks1" jdbcType="CLOB" />
-    <result column="result_Remarks2" property="resultRemarks2" jdbcType="CLOB" />
-    <result column="result_Remarks3" property="resultRemarks3" jdbcType="CLOB" />
-    <result column="result_Remarks4" property="resultRemarks4" jdbcType="CLOB" />
-    <result column="result_Remarks5" property="resultRemarks5" jdbcType="CLOB" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    result_Ky, result_UrlMd5, result_Title, result_Source, result_Type, keyword, result_Author, 
-    result_Forwarded, result_Comments, Published_Date, FCrawl_Date, RCrawl_Date, result_Emotion, 
-    result_Effective, result_IsRead, result_IsFocus,result_Url,result_Body,result_Remarks1, result_Remarks2, result_Remarks3, result_Remarks4, 
-    result_Remarks5
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from TB_PUBLIC_OPINION_INFO
-    where result_Ky = #{resultKy,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from TB_PUBLIC_OPINION_INFO
-    where result_Ky = #{resultKy,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.zbt.yqjk.pojo.PublicOpinion" >
-    insert into TB_PUBLIC_OPINION_INFO (result_Ky, result_UrlMd5, result_Title, 
-      result_Source, result_Type, keyword, 
-      result_Author, result_Forwarded, result_Comments, 
-      Published_Date, FCrawl_Date, RCrawl_Date, 
-      result_Emotion, result_Effective, result_IsRead, 
-      result_IsFocus, result_Url, result_Body, 
-      result_Remarks1, result_Remarks2, result_Remarks3, 
-      result_Remarks4, result_Remarks5)
-    values (#{resultKy,jdbcType=BIGINT}, #{resultUrlmd5,jdbcType=VARCHAR}, #{resultTitle,jdbcType=VARCHAR}, 
-      #{resultSource,jdbcType=VARCHAR}, #{resultType,jdbcType=INTEGER}, #{keyword,jdbcType=VARCHAR}, 
-      #{resultAuthor,jdbcType=VARCHAR}, #{resultForwarded,jdbcType=INTEGER}, #{resultComments,jdbcType=INTEGER}, 
-      #{publishedDate,jdbcType=TIMESTAMP}, #{fcrawlDate,jdbcType=TIMESTAMP}, #{rcrawlDate,jdbcType=TIMESTAMP}, 
-      #{resultEmotion,jdbcType=INTEGER}, #{resultEffective,jdbcType=INTEGER}, #{resultIsread,jdbcType=INTEGER}, 
-      #{resultIsfocus,jdbcType=INTEGER}, #{resultUrl,jdbcType=CLOB}, #{resultBody,jdbcType=CLOB}, 
-      #{resultRemarks1,jdbcType=CLOB}, #{resultRemarks2,jdbcType=CLOB}, #{resultRemarks3,jdbcType=CLOB}, 
-      #{resultRemarks4,jdbcType=CLOB}, #{resultRemarks5,jdbcType=CLOB})
-  </insert>
-  <insert id="insertSelective" parameterType="com.zbt.yqjk.pojo.PublicOpinion" >
-    insert into TB_PUBLIC_OPINION_INFO
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="resultKy != null" >
-        result_Ky,
-      </if>
-      <if test="resultUrlmd5 != null" >
-        result_UrlMd5,
-      </if>
-      <if test="resultTitle != null" >
-        result_Title,
-      </if>
-      <if test="resultSource != null" >
-        result_Source,
-      </if>
-      <if test="resultType != null" >
-        result_Type,
-      </if>
-      <if test="keyword != null" >
-        keyword,
-      </if>
-      <if test="resultAuthor != null" >
-        result_Author,
-      </if>
-      <if test="resultForwarded != null" >
-        result_Forwarded,
-      </if>
-      <if test="resultComments != null" >
-        result_Comments,
-      </if>
-      <if test="publishedDate != null" >
-        Published_Date,
-      </if>
-      <if test="fcrawlDate != null" >
-        FCrawl_Date,
-      </if>
-      <if test="rcrawlDate != null" >
-        RCrawl_Date,
-      </if>
-      <if test="resultEmotion != null" >
-        result_Emotion,
-      </if>
-      <if test="resultEffective != null" >
-        result_Effective,
-      </if>
-      <if test="resultIsread != null" >
-        result_IsRead,
-      </if>
-      <if test="resultIsfocus != null" >
-        result_IsFocus,
-      </if>
-      <if test="resultUrl != null" >
-        result_Url,
-      </if>
-      <if test="resultBody != null" >
-        result_Body,
-      </if>
-      <if test="resultRemarks1 != null" >
-        result_Remarks1,
-      </if>
-      <if test="resultRemarks2 != null" >
-        result_Remarks2,
-      </if>
-      <if test="resultRemarks3 != null" >
-        result_Remarks3,
-      </if>
-      <if test="resultRemarks4 != null" >
-        result_Remarks4,
-      </if>
-      <if test="resultRemarks5 != null" >
-        result_Remarks5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="resultKy != null" >
-        #{resultKy,jdbcType=BIGINT},
-      </if>
-      <if test="resultUrlmd5 != null" >
-        #{resultUrlmd5,jdbcType=VARCHAR},
-      </if>
-      <if test="resultTitle != null" >
-        #{resultTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="resultSource != null" >
-        #{resultSource,jdbcType=VARCHAR},
-      </if>
-      <if test="resultType != null" >
-        #{resultType,jdbcType=INTEGER},
-      </if>
-      <if test="keyword != null" >
-        #{keyword,jdbcType=VARCHAR},
-      </if>
-      <if test="resultAuthor != null" >
-        #{resultAuthor,jdbcType=VARCHAR},
-      </if>
-      <if test="resultForwarded != null" >
-        #{resultForwarded,jdbcType=INTEGER},
-      </if>
-      <if test="resultComments != null" >
-        #{resultComments,jdbcType=INTEGER},
-      </if>
-      <if test="publishedDate != null" >
-        #{publishedDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fcrawlDate != null" >
-        #{fcrawlDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="rcrawlDate != null" >
-        #{rcrawlDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="resultEmotion != null" >
-        #{resultEmotion,jdbcType=INTEGER},
-      </if>
-      <if test="resultEffective != null" >
-        #{resultEffective,jdbcType=INTEGER},
-      </if>
-      <if test="resultIsread != null" >
-        #{resultIsread,jdbcType=INTEGER},
-      </if>
-      <if test="resultIsfocus != null" >
-        #{resultIsfocus,jdbcType=INTEGER},
-      </if>
-      <if test="resultUrl != null" >
-        #{resultUrl,jdbcType=CLOB},
-      </if>
-      <if test="resultBody != null" >
-        #{resultBody,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks1 != null" >
-        #{resultRemarks1,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks2 != null" >
-        #{resultRemarks2,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks3 != null" >
-        #{resultRemarks3,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks4 != null" >
-        #{resultRemarks4,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks5 != null" >
-        #{resultRemarks5,jdbcType=CLOB},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zbt.yqjk.pojo.PublicOpinion" >
-    update TB_PUBLIC_OPINION_INFO
-    <set >
-      <if test="resultUrlmd5 != null" >
-        result_UrlMd5 = #{resultUrlmd5,jdbcType=VARCHAR},
-      </if>
-      <if test="resultTitle != null" >
-        result_Title = #{resultTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="resultSource != null" >
-        result_Source = #{resultSource,jdbcType=VARCHAR},
-      </if>
-      <if test="resultType != null" >
-        result_Type = #{resultType,jdbcType=INTEGER},
-      </if>
-      <if test="keyword != null" >
-        keyword = #{keyword,jdbcType=VARCHAR},
-      </if>
-      <if test="resultAuthor != null" >
-        result_Author = #{resultAuthor,jdbcType=VARCHAR},
-      </if>
-      <if test="resultForwarded != null" >
-        result_Forwarded = #{resultForwarded,jdbcType=INTEGER},
-      </if>
-      <if test="resultComments != null" >
-        result_Comments = #{resultComments,jdbcType=INTEGER},
-      </if>
-      <if test="publishedDate != null" >
-        Published_Date = #{publishedDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="fcrawlDate != null" >
-        FCrawl_Date = #{fcrawlDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="rcrawlDate != null" >
-        RCrawl_Date = #{rcrawlDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="resultEmotion != null" >
-        result_Emotion = #{resultEmotion,jdbcType=INTEGER},
-      </if>
-      <if test="resultEffective != null" >
-        result_Effective = #{resultEffective,jdbcType=INTEGER},
-      </if>
-      <if test="resultIsread != null" >
-        result_IsRead = #{resultIsread,jdbcType=INTEGER},
-      </if>
-      <if test="resultIsfocus != null" >
-        result_IsFocus = #{resultIsfocus,jdbcType=INTEGER},
-      </if>
-      <if test="resultUrl != null" >
-        result_Url = #{resultUrl,jdbcType=CLOB},
-      </if>
-      <if test="resultBody != null" >
-        result_Body = #{resultBody,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks1 != null" >
-        result_Remarks1 = #{resultRemarks1,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks2 != null" >
-        result_Remarks2 = #{resultRemarks2,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks3 != null" >
-        result_Remarks3 = #{resultRemarks3,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks4 != null" >
-        result_Remarks4 = #{resultRemarks4,jdbcType=CLOB},
-      </if>
-      <if test="resultRemarks5 != null" >
-        result_Remarks5 = #{resultRemarks5,jdbcType=CLOB},
-      </if>
-    </set>
-    where result_Ky = #{resultKy,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zbt.yqjk.pojo.PublicOpinion" >
-    update TB_PUBLIC_OPINION_INFO
-    set result_UrlMd5 = #{resultUrlmd5,jdbcType=VARCHAR},
-      result_Title = #{resultTitle,jdbcType=VARCHAR},
-      result_Source = #{resultSource,jdbcType=VARCHAR},
-      result_Type = #{resultType,jdbcType=INTEGER},
-      keyword = #{keyword,jdbcType=VARCHAR},
-      result_Author = #{resultAuthor,jdbcType=VARCHAR},
-      result_Forwarded = #{resultForwarded,jdbcType=INTEGER},
-      result_Comments = #{resultComments,jdbcType=INTEGER},
-      Published_Date = #{publishedDate,jdbcType=TIMESTAMP},
-      FCrawl_Date = #{fcrawlDate,jdbcType=TIMESTAMP},
-      RCrawl_Date = #{rcrawlDate,jdbcType=TIMESTAMP},
-      result_Emotion = #{resultEmotion,jdbcType=INTEGER},
-      result_Effective = #{resultEffective,jdbcType=INTEGER},
-      result_IsRead = #{resultIsread,jdbcType=INTEGER},
-      result_IsFocus = #{resultIsfocus,jdbcType=INTEGER}
-    where result_Ky = #{resultKy,jdbcType=BIGINT}
-  </update>
- 
-  
-  <!-- 根据关键词条集合获取分页的内容  -->
-  <select id="getPublicOpinionBykeywords"  resultMap="BaseResultMap">
-    select top ${pageBean.rowSize}  
-    <include refid="Base_Column_List" />
-    from TB_PUBLIC_OPINION_INFO
-    where Published_Date NOT IN (
-		SELECT TOP (SELECT ${pageBean.rowSize}*${pageBean.currentPage-1}) Published_Date FROM TB_PUBLIC_OPINION_INFO 
-			WHERE keyword in 
-			<foreach item="item" index="index" collection="keywords" open="("
-			separator="," close=")"> 
-			#{item.keywordName}   
-			</foreach>
-			AND result_Effective = 1  
-			AND result_Type in
-			    <foreach item="item" index="index" collection="resultTypes" open="("
-						separator="," close=")"> 
-				#{item}   
-				</foreach>
-		    <if test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">	
-			AND Published_Date between #{begintime} and #{endtime}
+<mapper namespace="com.zbt.yqjk.dao.IPublicOpinionDao">
+	<resultMap id="BaseResultMap" type="com.zbt.yqjk.pojo.PublicOpinion">
+		<id column="result_Ky" property="resultKy" jdbcType="BIGINT" />
+		<result column="result_UrlMd5" property="resultUrlmd5"
+			jdbcType="VARCHAR" />
+		<result column="result_Title" property="resultTitle" jdbcType="VARCHAR" />
+		<result column="result_Source" property="resultSource"
+			jdbcType="VARCHAR" />
+		<result column="result_Type" property="resultType" jdbcType="INTEGER" />
+		<result column="keyword" property="keyword" jdbcType="VARCHAR" />
+		<result column="result_Author" property="resultAuthor"
+			jdbcType="VARCHAR" />
+		<result column="result_Forwarded" property="resultForwarded"
+			jdbcType="INTEGER" />
+		<result column="result_Comments" property="resultComments"
+			jdbcType="INTEGER" />
+		<result column="Published_Date" property="publishedDate"
+			jdbcType="TIMESTAMP" />
+		<result column="FCrawl_Date" property="fcrawlDate" jdbcType="TIMESTAMP" />
+		<result column="RCrawl_Date" property="rcrawlDate" jdbcType="TIMESTAMP" />
+		<result column="result_Emotion" property="resultEmotion"
+			jdbcType="INTEGER" />
+		<result column="result_Effective" property="resultEffective"
+			jdbcType="INTEGER" />
+		<result column="result_IsRead" property="resultIsread"
+			jdbcType="INTEGER" />
+		<result column="result_IsFocus" property="resultIsfocus"
+			jdbcType="INTEGER" />
+		<result column="result_Url" property="resultUrl" jdbcType="CLOB" />
+		<result column="result_Body" property="resultBody" jdbcType="CLOB" />
+		<result column="result_Remarks1" property="resultRemarks1"
+			jdbcType="CLOB" />
+		<result column="result_Remarks2" property="resultRemarks2"
+			jdbcType="CLOB" />
+		<result column="result_Remarks3" property="resultRemarks3"
+			jdbcType="CLOB" />
+		<result column="result_Remarks4" property="resultRemarks4"
+			jdbcType="CLOB" />
+		<result column="result_Remarks5" property="resultRemarks5"
+			jdbcType="CLOB" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		result_Ky, result_UrlMd5, result_Title, result_Source, result_Type, keyword,
+		result_Author,
+		result_Forwarded, result_Comments, Published_Date, FCrawl_Date, RCrawl_Date,
+		result_Emotion,
+		result_Effective, result_IsRead, result_IsFocus,result_Url,result_Body,result_Remarks1,
+		result_Remarks2, result_Remarks3, result_Remarks4,
+		result_Remarks5
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from TB_PUBLIC_OPINION_INFO
+		where result_Ky = #{resultKy,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from TB_PUBLIC_OPINION_INFO
+		where result_Ky = #{resultKy,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zbt.yqjk.pojo.PublicOpinion">
+		insert into TB_PUBLIC_OPINION_INFO (result_Ky, result_UrlMd5,
+		result_Title,
+		result_Source, result_Type, keyword,
+		result_Author, result_Forwarded, result_Comments,
+		Published_Date, FCrawl_Date, RCrawl_Date,
+		result_Emotion, result_Effective, result_IsRead,
+		result_IsFocus, result_Url, result_Body,
+		result_Remarks1, result_Remarks2, result_Remarks3,
+		result_Remarks4, result_Remarks5)
+		values (#{resultKy,jdbcType=BIGINT}, #{resultUrlmd5,jdbcType=VARCHAR},
+		#{resultTitle,jdbcType=VARCHAR},
+		#{resultSource,jdbcType=VARCHAR}, #{resultType,jdbcType=INTEGER}, #{keyword,jdbcType=VARCHAR},
+		#{resultAuthor,jdbcType=VARCHAR}, #{resultForwarded,jdbcType=INTEGER},
+		#{resultComments,jdbcType=INTEGER},
+		#{publishedDate,jdbcType=TIMESTAMP}, #{fcrawlDate,jdbcType=TIMESTAMP},
+		#{rcrawlDate,jdbcType=TIMESTAMP},
+		#{resultEmotion,jdbcType=INTEGER}, #{resultEffective,jdbcType=INTEGER},
+		#{resultIsread,jdbcType=INTEGER},
+		#{resultIsfocus,jdbcType=INTEGER}, #{resultUrl,jdbcType=CLOB}, #{resultBody,jdbcType=CLOB},
+		#{resultRemarks1,jdbcType=CLOB}, #{resultRemarks2,jdbcType=CLOB},
+		#{resultRemarks3,jdbcType=CLOB},
+		#{resultRemarks4,jdbcType=CLOB}, #{resultRemarks5,jdbcType=CLOB})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zbt.yqjk.pojo.PublicOpinion">
+		insert into TB_PUBLIC_OPINION_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="resultKy != null">
+				result_Ky,
 			</if>
-			order by Published_Date desc
-	 )
-    AND keyword in 
-	    <foreach item="item" index="index" collection="keywords" open="("
-				separator="," close=")"> 
-		#{item.keywordName}   
-		</foreach>	
-    AND result_Effective = 1 
-    
-    AND result_Type in
-	    <foreach item="item" index="index" collection="resultTypes" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>
-    <if test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">	
-	AND Published_Date between #{begintime} and #{endtime}
-	</if>
-    order by Published_Date desc; 
-  </select>
-  
-  
-  <!-- 根据关键字词条集合获取总记录数  -->
-  <select id="getPublicOpinionRowsCount" resultType="java.lang.Integer">
-    select count(1)     
-    from TB_PUBLIC_OPINION_INFO
-    where 
-    keyword in 
-	    <foreach item="item" index="index" collection="keywords" open="("
-				separator="," close=")"> 
-		#{item.keywordName}   
-		</foreach>	
-	
-  	AND result_Effective = 1
-  	
-    AND result_Type in
-	    <foreach item="item" index="index" collection="resultTypes" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>	
-    <if test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">	
-	AND Published_Date between #{begintime} and #{endtime}
-	</if>	
-    ; 
-  </select>
-  
-  
-  <!-- 根据key集合来删除对应记录  -->
-  <update id="delPublicOpinion">
-    update TB_PUBLIC_OPINION_INFO
-    set result_Effective = 0
-    where result_Ky in
-    	<foreach item="item" index="index" collection="keys" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>
-  </update>
-  
-  <!-- 根据key集合来收藏对应记录  -->
-  <update id="focusPublicOpinion">
-    update TB_PUBLIC_OPINION_INFO
-    set result_IsFocus = 1
-    where result_Ky in
-    	<foreach item="item" index="index" collection="keys" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>
-  </update>
-  
-  <!-- 根据key集合来将对应记录改为正面分类  -->
-  <update id="goodPublicOpinion">
-    update TB_PUBLIC_OPINION_INFO
-    set result_Emotion = 1
-    where result_Ky in
-    	<foreach item="item" index="index" collection="keys" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>
-  </update>
-  
-  <!-- 根据key集合来将对应记录改为中立分类  -->
-  <update id="midPublicOpinion">
-    update TB_PUBLIC_OPINION_INFO
-    set result_Emotion = 2
-    where result_Ky in
-    	<foreach item="item" index="index" collection="keys" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>
-  </update>
-  
-  <!-- 根据key集合来修改对应记录为负面分类  -->
-  <update id="badPublicOpinion">
-    update TB_PUBLIC_OPINION_INFO
-    set result_Emotion = 3
-    where result_Ky in
-    	<foreach item="item" index="index" collection="keys" open="("
-				separator="," close=")"> 
-		#{item}   
-		</foreach>
-  </update>
+			<if test="resultUrlmd5 != null">
+				result_UrlMd5,
+			</if>
+			<if test="resultTitle != null">
+				result_Title,
+			</if>
+			<if test="resultSource != null">
+				result_Source,
+			</if>
+			<if test="resultType != null">
+				result_Type,
+			</if>
+			<if test="keyword != null">
+				keyword,
+			</if>
+			<if test="resultAuthor != null">
+				result_Author,
+			</if>
+			<if test="resultForwarded != null">
+				result_Forwarded,
+			</if>
+			<if test="resultComments != null">
+				result_Comments,
+			</if>
+			<if test="publishedDate != null">
+				Published_Date,
+			</if>
+			<if test="fcrawlDate != null">
+				FCrawl_Date,
+			</if>
+			<if test="rcrawlDate != null">
+				RCrawl_Date,
+			</if>
+			<if test="resultEmotion != null">
+				result_Emotion,
+			</if>
+			<if test="resultEffective != null">
+				result_Effective,
+			</if>
+			<if test="resultIsread != null">
+				result_IsRead,
+			</if>
+			<if test="resultIsfocus != null">
+				result_IsFocus,
+			</if>
+			<if test="resultUrl != null">
+				result_Url,
+			</if>
+			<if test="resultBody != null">
+				result_Body,
+			</if>
+			<if test="resultRemarks1 != null">
+				result_Remarks1,
+			</if>
+			<if test="resultRemarks2 != null">
+				result_Remarks2,
+			</if>
+			<if test="resultRemarks3 != null">
+				result_Remarks3,
+			</if>
+			<if test="resultRemarks4 != null">
+				result_Remarks4,
+			</if>
+			<if test="resultRemarks5 != null">
+				result_Remarks5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="resultKy != null">
+				#{resultKy,jdbcType=BIGINT},
+			</if>
+			<if test="resultUrlmd5 != null">
+				#{resultUrlmd5,jdbcType=VARCHAR},
+			</if>
+			<if test="resultTitle != null">
+				#{resultTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="resultSource != null">
+				#{resultSource,jdbcType=VARCHAR},
+			</if>
+			<if test="resultType != null">
+				#{resultType,jdbcType=INTEGER},
+			</if>
+			<if test="keyword != null">
+				#{keyword,jdbcType=VARCHAR},
+			</if>
+			<if test="resultAuthor != null">
+				#{resultAuthor,jdbcType=VARCHAR},
+			</if>
+			<if test="resultForwarded != null">
+				#{resultForwarded,jdbcType=INTEGER},
+			</if>
+			<if test="resultComments != null">
+				#{resultComments,jdbcType=INTEGER},
+			</if>
+			<if test="publishedDate != null">
+				#{publishedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fcrawlDate != null">
+				#{fcrawlDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rcrawlDate != null">
+				#{rcrawlDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resultEmotion != null">
+				#{resultEmotion,jdbcType=INTEGER},
+			</if>
+			<if test="resultEffective != null">
+				#{resultEffective,jdbcType=INTEGER},
+			</if>
+			<if test="resultIsread != null">
+				#{resultIsread,jdbcType=INTEGER},
+			</if>
+			<if test="resultIsfocus != null">
+				#{resultIsfocus,jdbcType=INTEGER},
+			</if>
+			<if test="resultUrl != null">
+				#{resultUrl,jdbcType=CLOB},
+			</if>
+			<if test="resultBody != null">
+				#{resultBody,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks1 != null">
+				#{resultRemarks1,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks2 != null">
+				#{resultRemarks2,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks3 != null">
+				#{resultRemarks3,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks4 != null">
+				#{resultRemarks4,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks5 != null">
+				#{resultRemarks5,jdbcType=CLOB},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zbt.yqjk.pojo.PublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		<set>
+			<if test="resultUrlmd5 != null">
+				result_UrlMd5 = #{resultUrlmd5,jdbcType=VARCHAR},
+			</if>
+			<if test="resultTitle != null">
+				result_Title = #{resultTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="resultSource != null">
+				result_Source = #{resultSource,jdbcType=VARCHAR},
+			</if>
+			<if test="resultType != null">
+				result_Type = #{resultType,jdbcType=INTEGER},
+			</if>
+			<if test="keyword != null">
+				keyword = #{keyword,jdbcType=VARCHAR},
+			</if>
+			<if test="resultAuthor != null">
+				result_Author = #{resultAuthor,jdbcType=VARCHAR},
+			</if>
+			<if test="resultForwarded != null">
+				result_Forwarded = #{resultForwarded,jdbcType=INTEGER},
+			</if>
+			<if test="resultComments != null">
+				result_Comments = #{resultComments,jdbcType=INTEGER},
+			</if>
+			<if test="publishedDate != null">
+				Published_Date = #{publishedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fcrawlDate != null">
+				FCrawl_Date = #{fcrawlDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rcrawlDate != null">
+				RCrawl_Date = #{rcrawlDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resultEmotion != null">
+				result_Emotion = #{resultEmotion,jdbcType=INTEGER},
+			</if>
+			<if test="resultEffective != null">
+				result_Effective = #{resultEffective,jdbcType=INTEGER},
+			</if>
+			<if test="resultIsread != null">
+				result_IsRead = #{resultIsread,jdbcType=INTEGER},
+			</if>
+			<if test="resultIsfocus != null">
+				result_IsFocus = #{resultIsfocus,jdbcType=INTEGER},
+			</if>
+			<if test="resultUrl != null">
+				result_Url = #{resultUrl,jdbcType=CLOB},
+			</if>
+			<if test="resultBody != null">
+				result_Body = #{resultBody,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks1 != null">
+				result_Remarks1 = #{resultRemarks1,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks2 != null">
+				result_Remarks2 = #{resultRemarks2,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks3 != null">
+				result_Remarks3 = #{resultRemarks3,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks4 != null">
+				result_Remarks4 = #{resultRemarks4,jdbcType=CLOB},
+			</if>
+			<if test="resultRemarks5 != null">
+				result_Remarks5 = #{resultRemarks5,jdbcType=CLOB},
+			</if>
+		</set>
+		where result_Ky = #{resultKy,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zbt.yqjk.pojo.PublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_UrlMd5 = #{resultUrlmd5,jdbcType=VARCHAR},
+		result_Title = #{resultTitle,jdbcType=VARCHAR},
+		result_Source = #{resultSource,jdbcType=VARCHAR},
+		result_Type = #{resultType,jdbcType=INTEGER},
+		keyword = #{keyword,jdbcType=VARCHAR},
+		result_Author = #{resultAuthor,jdbcType=VARCHAR},
+		result_Forwarded = #{resultForwarded,jdbcType=INTEGER},
+		result_Comments = #{resultComments,jdbcType=INTEGER},
+		Published_Date = #{publishedDate,jdbcType=TIMESTAMP},
+		FCrawl_Date = #{fcrawlDate,jdbcType=TIMESTAMP},
+		RCrawl_Date = #{rcrawlDate,jdbcType=TIMESTAMP},
+		result_Emotion = #{resultEmotion,jdbcType=INTEGER},
+		result_Effective = #{resultEffective,jdbcType=INTEGER},
+		result_IsRead = #{resultIsread,jdbcType=INTEGER},
+		result_IsFocus = #{resultIsfocus,jdbcType=INTEGER}
+		where result_Ky = #{resultKy,jdbcType=BIGINT}
+	</update>
 
 
-  <!-- 根据是否关注获取分页的内容  -->
-  <select id="getPublicOpinionByIsFocus"  resultMap="BaseResultMap">
-	select top ${pageBean.rowSize}  
-    <include refid="Base_Column_List" />
-    from TB_PUBLIC_OPINION_INFO
-    where Published_Date NOT IN (
-		SELECT TOP (SELECT ${pageBean.rowSize}*${pageBean.currentPage-1}) Published_Date FROM TB_PUBLIC_OPINION_INFO 
-			WHERE result_IsFocus = 1  order by Published_Date desc
-	 )
-    AND result_IsFocus = 1 order by Published_Date desc; 
-  </select>
-  
-  
-  <!-- 根据是否关注获取分页的总记录数  -->
-  <select id="getPublicOpinionIsFocusCount" resultType="java.lang.Integer">
-    select count(1)     
-    from TB_PUBLIC_OPINION_INFO
-    where result_IsFocus = 1 ; 
-  </select>
-  
-  
-  <!-- 根据主键集合获取需要导出的舆情数据集合  -->
-  <select id="getExportPublicOpinion" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from TB_PUBLIC_OPINION_INFO
-    where result_Ky in 
-    <foreach item="item" index="index" collection="resultKeys" open="("
-			separator="," close=")"> 
-	#{item}   
-	</foreach>	
-    order by Published_Date desc; 
-  </select>
-  
-  
-  <!-- 根据主键集合取消关注  -->
-  <update id="setCancelPublicOpinion" >
-    update TB_PUBLIC_OPINION_INFO 
-    set result_IsFocus = 0 
-    where result_Ky in
-    <foreach item="item" index="index" collection="resultKeys" open="("
-			separator="," close=")"> 
-	#{item}   
-	</foreach>	
-  </update>
-  
-  <!-- 根据日期获取总记录数  -->
-  <select id="selectCountByDate" resultType="java.lang.Integer">
-    select count(1)     
-    from TB_PUBLIC_OPINION_INFO
-    where 
-    Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime} 
-    ; 
-  </select>
-   <!-- 根据日期和情感分类获取总记录数  -->
-  <select id="selectCountByDateAndEmotion" resultType="java.lang.Integer">
-    select count(1)     
-    from TB_PUBLIC_OPINION_INFO
-    where 
-    Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime}  
-    AND result_Emotion = #{resultEmotion,jdbcType=INTEGER}
-    ; 
-  </select>
-  <!-- 根据日期和数据来源分类获取总记录数  -->
-  <select id="selectCountByResultType" resultType="java.lang.Integer">
-    select count(1)     
-    from TB_PUBLIC_OPINION_INFO
-    where 
-     Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime} 
-    AND result_Type = #{resultType,jdbcType=INTEGER}
-    ; 
-  </select>
-  <!-- 根据日期和数据来源分类和情感分类获取总记录数  -->
-  <select id="selectCountByResultTypeAndEmotion" resultType="java.lang.Integer">
-    select count(1)     
-    from TB_PUBLIC_OPINION_INFO
-    where 
-    Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime}  
-    AND result_Type = #{resultType,jdbcType=INTEGER}
-    AND result_Emotion = #{resultEmotion,jdbcType=INTEGER}
-    ; 
-  </select>
+	<!-- 根据关键词条集合获取分页的内容 -->
+	<select id="getPublicOpinionBykeywords" resultMap="BaseResultMap">
+		select top ${pageBean.rowSize}
+		<include refid="Base_Column_List" />
+		from TB_PUBLIC_OPINION_INFO
+		where Published_Date NOT IN (
+		SELECT TOP (SELECT
+		${pageBean.rowSize}*${pageBean.currentPage-1}) Published_Date FROM
+		TB_PUBLIC_OPINION_INFO
+		WHERE keyword in
+		<foreach item="item" index="index" collection="keywords" open="("
+			separator="," close=")">
+			#{item.keywordName}
+		</foreach>
+		AND result_Effective = 1
+		AND result_Type in
+		<foreach item="item" index="index" collection="resultTypes"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">
+			AND Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+		</if>
+		<if	test="resultEmotion!=10000">
+			AND result_Emotion = #{resultEmotion} 
+		</if>
+		order by Published_Date desc
+		)
+		AND keyword in
+		<foreach item="item" index="index" collection="keywords" open="("
+			separator="," close=")">
+			#{item.keywordName}
+		</foreach>
+		AND result_Effective = 1
+		<if	test="resultEmotion!=10000">
+			AND result_Emotion = #{resultEmotion} 
+		</if>
+		AND result_Type in
+		<foreach item="item" index="index" collection="resultTypes"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		<if
+			test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">
+			AND Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+		</if>
+		order by Published_Date desc;
+	</select>
+
+
+	<!-- 根据关键字词条集合获取总记录数 -->
+	<select id="getPublicOpinionRowsCount" resultType="java.lang.Integer">
+		select count(1)
+		from TB_PUBLIC_OPINION_INFO
+		where
+		keyword in
+		<foreach item="item" index="index" collection="keywords" open="("
+			separator="," close=")">
+			#{item.keywordName}
+		</foreach>
+		<if	test="resultEmotion!=10000">
+			AND result_Emotion = #{resultEmotion} 
+		</if>
+		AND result_Effective = 1
+
+		AND result_Type in
+		<foreach item="item" index="index" collection="resultTypes"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		<if
+			test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">
+			AND Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+		</if>
+		;
+	</select>
+
+
+	<!-- 根据key集合来删除对应记录 -->
+	<update id="delPublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_Effective = 0
+		where result_Ky in
+		<foreach item="item" index="index" collection="keys" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
  <!-- 根据日期和是否关注获取收藏内容  -->
 	<select id="selectByDateAndIsfocus" resultMap="BaseResultMap" >
     select 
@@ -511,5 +419,269 @@
     where  
     Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime}  
     AND result_IsFocus = 1 order by Published_Date desc;
+  </select>
+	<!-- 根据key集合来收藏对应记录 -->
+	<update id="focusPublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_IsFocus = 1
+		where result_Ky in
+		<foreach item="item" index="index" collection="keys" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 根据key集合来将对应记录改为正面分类 -->
+	<update id="goodPublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_Emotion = 1
+		where result_Ky in
+		<foreach item="item" index="index" collection="keys" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 根据key集合来将对应记录改为中立分类 -->
+	<update id="midPublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_Emotion = 2
+		where result_Ky in
+		<foreach item="item" index="index" collection="keys" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 根据key集合来修改对应记录为负面分类 -->
+	<update id="badPublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_Emotion = 3
+		where result_Ky in
+		<foreach item="item" index="index" collection="keys" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<!-- 根据是否关注获取分页的内容 -->
+	<select id="getPublicOpinionByIsFocus" resultMap="BaseResultMap">
+		select top ${pageBean.rowSize}
+		<include refid="Base_Column_List" />
+		from TB_PUBLIC_OPINION_INFO
+		where Published_Date NOT IN (
+		SELECT TOP (SELECT
+		${pageBean.rowSize}*${pageBean.currentPage-1}) Published_Date FROM
+		TB_PUBLIC_OPINION_INFO
+		WHERE result_IsFocus = 1 order by Published_Date desc
+		)
+		AND result_IsFocus = 1 order by Published_Date desc;
+	</select>
+
+
+	<!-- 根据是否关注获取分页的总记录数 -->
+	<select id="getPublicOpinionIsFocusCount" resultType="java.lang.Integer">
+		select count(1)
+		from TB_PUBLIC_OPINION_INFO
+		where result_IsFocus = 1 ;
+	</select>
+
+
+	<!-- 根据主键集合获取需要导出的舆情数据集合 -->
+	<select id="getExportPublicOpinion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TB_PUBLIC_OPINION_INFO
+		where result_Ky in
+		<foreach item="item" index="index" collection="resultKeys"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		order by Published_Date desc;
+	</select>
+
+
+	<!-- 根据主键集合取消关注 -->
+	<update id="setCancelPublicOpinion">
+		update TB_PUBLIC_OPINION_INFO
+		set result_IsFocus = 0
+		where result_Ky in
+		<foreach item="item" index="index" collection="resultKeys"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 根据日期获取总记录数 -->
+	<select id="selectCountByDate" resultType="java.lang.Integer">
+		select count(1)
+		from TB_PUBLIC_OPINION_INFO
+		where
+		Published_Date &gt;= #{begintime} and Published_Date &lt; #{endtime}
+		AND result_Effective = 1;
+	</select>
+	<!-- 根据日期和情感分类获取总记录数 -->
+	<select id="selectCountByDateAndEmotion" resultType="java.lang.Integer">
+		select count(1)
+		from TB_PUBLIC_OPINION_INFO
+		where
+		Published_Date &gt;= #{begintime} and Published_Date &lt; #{endtime}
+		AND result_Emotion = #{resultEmotion,jdbcType=INTEGER}
+		AND result_Effective = 1;
+	</select>
+	<!-- 根据日期和数据来源分类获取总记录数 -->
+	<select id="selectCountByResultType" resultType="java.lang.Integer">
+		select count(1)
+		from TB_PUBLIC_OPINION_INFO
+		where
+		Published_Date &gt;= #{begintime} and Published_Date &lt; #{endtime}
+		AND result_Type = #{resultType,jdbcType=INTEGER}
+		AND result_Effective = 1;
+	</select>
+	<!-- 根据日期和数据来源分类和情感分类获取总记录数 -->
+	<select id="selectCountByResultTypeAndEmotion" resultType="java.lang.Integer">
+		select count(1)
+		from TB_PUBLIC_OPINION_INFO
+		where
+		Published_Date &gt;= #{begintime} and Published_Date &lt; #{endtime}
+		AND result_Type = #{resultType,jdbcType=INTEGER}
+		AND result_Emotion = #{resultEmotion,jdbcType=INTEGER}
+		AND result_Effective = 1;
+	</select>
+
+	<!-- 根据媒体类型、情感分类获取全部舆情数据集合 -->
+	<select id="getTop10PublicOpinion" resultMap="BaseResultMap">
+		select top 10
+		<include refid="Base_Column_List" />
+		from TB_PUBLIC_OPINION_INFO
+		where keyword in (select keyword_name from
+		TB_KEYWORD where
+		keyword_IsEnable=1)
+		<if test="resultType!='null'">
+			AND result_Type=#{resultType,jdbcType=INTEGER}
+		</if>
+		<if test="resultEmotion!='null'">
+			AND result_Emotion=#{resultEmotion,jdbcType=INTEGER}
+		</if>
+		and result_Effective=1
+		order by Published_Date desc
+	</select>
+	
+	  <select id="getAnalysisData" resultType="java.util.Map">
+  SELECT  CONVERT(VARCHAR(13), Published_Date, 120)+'时' AS date,	
+		sum(case when result_Type ='1' then 1 else 0 end) AS wb,
+	sum(case when result_Type ='2' then 1 else 0 end) AS xw,
+	sum(case when result_Type ='3' then 1 else 0 end) AS lt,
+	sum(case when result_Type ='4' then 1 else 0 end) AS bk,
+	sum(case when result_Type ='5' then 1 else 0 end) AS wx,
+	COUNT(*) AS num
+	FROM    dbo.TB_PUBLIC_OPINION_INFO
+	WHERE   Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+	AND result_Effective = 1
+	 AND result_Type IN (#{mediaType1},#{mediaType2},#{mediaType3},#{mediaType4},#{mediaType5})
+	GROUP BY CONVERT(VARCHAR(13), Published_Date, 120)  
+  </select>
+  
+<select id="getAnalysisData2" resultType="java.util.Map">
+  SELECT B.dt AS date,        
+        ISNULL(A.wb, 0) AS wb ,
+        ISNULL(A.xw, 0) AS xw ,
+        ISNULL(A.lt, 0) AS lt ,
+        ISNULL(A.bk, 0) AS bk ,
+        ISNULL(A.wx, 0) AS wx ,
+        ISNULL(A.num, 0) AS num 
+ FROM   ( SELECT    CONVERT(VARCHAR(10), Published_Date, 120) AS date ,
+                    COUNT(*) AS num ,
+                    SUM(CASE WHEN result_Type = '1' THEN 1
+                             ELSE 0
+                        END) AS wb ,
+                    SUM(CASE WHEN result_Type = '2' THEN 1
+                             ELSE 0
+                        END) AS xw ,
+                    SUM(CASE WHEN result_Type = '3' THEN 1
+                             ELSE 0
+                        END) AS lt ,
+                    SUM(CASE WHEN result_Type = '4' THEN 1
+                             ELSE 0
+                        END) AS bk ,
+                    SUM(CASE WHEN result_Type = '5' THEN 1
+                             ELSE 0
+                        END) AS wx
+          FROM      dbo.TB_PUBLIC_OPINION_INFO
+          WHERE     Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+                    AND result_Effective = 1
+                    AND result_Type IN  (#{mediaType1},#{mediaType2},#{mediaType3},#{mediaType4},#{mediaType5})
+          GROUP BY  CONVERT(VARCHAR(10), Published_Date, 120)
+        ) A
+        RIGHT JOIN ( SELECT CONVERT(VARCHAR(10), DATEADD(DAY, number,#{begintime}), 120) AS dt
+                     FROM   master.dbo.spt_values
+                     WHERE  type = 'P' AND number &lt; DATEDIFF(DAY, #{begintime},#{endtime})
+                   ) B ON A.date = B.dt ORDER BY B.dt
+  </select>
+<select id="getAnalysisBarData" resultType="java.util.Map">
+	SELECT B.Name AS type,ISNULL(A.num,0) AS num from (SELECT result_Type ,
+    	    COUNT(*) AS num
+ 	FROM   dbo.TB_PUBLIC_OPINION_INFO
+ 	WHERE  Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+ 		AND result_Effective = 1
+        AND result_Type IN (#{mediaType1},#{mediaType2},#{mediaType3},#{mediaType4},#{mediaType5})
+ GROUP BY result_Type) A right JOIN (SELECT * FROM TB_TYPE_INFO WHERE Belong='Media')
+B ON A.result_Type =B.Type ORDER BY B.Type
+  </select>
+  
+  <select id="getAnalysisPieData" resultType="java.util.Map">
+	SELECT  B.Name AS emo_type ,
+        ISNULL(A.num, 0) AS num
+		FROM    ( SELECT    result_Emotion ,
+                    COUNT(*) AS num
+          FROM      dbo.TB_PUBLIC_OPINION_INFO
+          WHERE     Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+                    AND result_Effective = 1
+                    AND result_Type IN (#{mediaType1},#{mediaType2},#{mediaType3},#{mediaType4},#{mediaType5})
+          GROUP BY  result_Emotion
+        ) A
+        RIGHT JOIN ( SELECT *
+                     FROM   TB_TYPE_INFO WHERE Belong = 'Emo'
+                   ) B ON A.result_Emotion = B.Type ORDER BY B.Type;
+  </select>
+  
+  <select id="getEmoLineData" resultType="java.util.Map">
+	SELECT  CONVERT(VARCHAR(13), Published_Date, 120)+'时' AS date,
+	sum(case when result_Emotion ='1' then 1 else 0 end) AS zm,
+	sum(case when result_Emotion ='3' then 1 else 0 end) AS fm
+	FROM    TB_PUBLIC_OPINION_INFO
+	WHERE  Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+        AND result_Emotion IN ( 1, 3 )
+        AND result_Effective = 1
+        AND result_Type IN (#{mediaType1},#{mediaType2},#{mediaType3},#{mediaType4},#{mediaType5})
+        GROUP BY CONVERT(VARCHAR(13), Published_Date, 120) 
+  </select>
+    <select id="getEmoLineData2" resultType="java.util.Map">
+SELECT  B.dt AS date ,
+        ISNULL(A.zm, 0) AS zm ,
+        ISNULL(A.fm, 0) AS fm
+FROM    ( SELECT    CONVERT(VARCHAR(10), Published_Date, 120) AS date ,
+                    SUM(CASE WHEN result_Emotion = '1' THEN 1
+                             ELSE 0
+                        END) AS zm ,
+                    SUM(CASE WHEN result_Emotion = '3' THEN 1
+                             ELSE 0
+                        END) AS fm
+          FROM      TB_PUBLIC_OPINION_INFO
+          WHERE     Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+                    AND result_Emotion IN ( 1, 3 )
+                    AND result_Effective = 1
+                    AND result_Type IN ( 1, 2, 3, 4, 5 )
+          GROUP BY  CONVERT(VARCHAR(10), Published_Date, 120)
+        ) A
+        RIGHT JOIN (  SELECT CONVERT(VARCHAR(10), DATEADD(DAY, number,#{begintime}), 120) AS dt
+                     FROM   master.dbo.spt_values
+                     WHERE  type = 'P' AND number &lt; DATEDIFF(DAY, #{begintime},#{endtime})
+                   ) B ON A.date = B.dt
+ORDER BY B.dt
+  </select>
+      <select id="getMediaTypeData" resultType="java.util.Map">
+		SELECT Name,Type FROM dbo.TB_TYPE_INFO where Belong='Media'
   </select>
 </mapper>

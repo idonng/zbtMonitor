@@ -40,7 +40,8 @@
 	<select id="selectAll" parameterType="com.zbt.yqjk.pojo.TemplateInfo" resultMap="ResultMap" >
 	select 
     <include refid="Base_Column_List" />
-    from TB_TEMPLATE_INFO
+    from TB_TEMPLATE_INFO  
+    where Is_Delete = 1
     </select>
  
   <insert id="insert" parameterType="com.zbt.yqjk.pojo.TemplateInfo" >

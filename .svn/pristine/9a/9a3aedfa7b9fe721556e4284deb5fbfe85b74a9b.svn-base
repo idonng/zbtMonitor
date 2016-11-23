@@ -1,0 +1,113 @@
+package com.zbt.yqjk.service.impl;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.stereotype.Service;
+
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.axis.AxisLabel;
+import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.axis.ValueAxis;
+import com.github.abel533.echarts.code.Magic;
+import com.github.abel533.echarts.code.Orient;
+import com.github.abel533.echarts.code.Tool;
+import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.code.X;
+import com.github.abel533.echarts.code.Y;
+import com.github.abel533.echarts.data.LineData;
+import com.github.abel533.echarts.data.PieData;
+import com.github.abel533.echarts.feature.MagicType;
+import com.github.abel533.echarts.json.GsonOption;
+import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
+import com.github.abel533.echarts.series.Pie;
+import com.github.abel533.echarts.series.Series;
+import com.zbt.yqjk.dao.IKeywordDao;
+import com.zbt.yqjk.pojo.Keyword;
+import com.zbt.yqjk.service.IEchartsReportService;
+import com.zbt.yqjk.service.IKeywordService;
+
+@Service("echartsService")
+public class EchartsReportServiceImpl implements IEchartsReportService {
+
+	@Override
+	public Option getLineOption(String title, List listX,  List listName, List<Map> listValue) {
+		// TODO Auto-generated method stub
+		Option option = new Option();
+		 //工具栏  
+		option.toolbox()
+				.x("right")
+				.show(true)
+				.feature(new MagicType(Magic.line, Magic.bar).show(true),
+						Tool.saveAsImage);
+		option.title().x("center").text(title);
+		 //提示框  
+		option.tooltip().trigger(Trigger.axis);
+		option.calculable(true);
+		int sizeName = listName.size();
+		String[] ArrayName = (String[]) listName.toArray(new String[sizeName]);
+		option.legend().x("left").orient(Orient.vertical).data(ArrayName).itemWidth(8).padding(0);
+		int xsize = listX.size();
+		String[] xArray = (String[]) listX.toArray(new String[xsize]);
+		CategoryAxis categoryAxis = new CategoryAxis();
+		categoryAxis.name("日期");
+//		categoryAxis.boundaryGap(true);
+		AxisLabel axisLabel = new AxisLabel();
+		axisLabel.setRotate(45);
+		axisLabel.setInterval(0);
+		categoryAxis.data(xArray).setAxisLabel(axisLabel);
+		option.xAxis(categoryAxis);
+		ValueAxis valueAxis = new ValueAxis();
+		option.yAxis(valueAxis);
+		valueAxis.name("条数");
+		List<Series> seriess = new ArrayList<Series>() ;
+		for (Map map : listValue) {
+			Line line=new Line(); 
+			int s = ((List) map.get("value")).size();
+			String[] sArray = (String[])((List) map.get("value")).toArray(new String[s]);
+			line.name((String) map.get("name"));
+			line.data(sArray); 
+			seriess.add(line);
+		}
+		option.series(seriess);
+		return option;
+	}
+
+	@Override
+	public Option getpieOption(String title, List listName, List<Map<String, Object>> listValue) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		GsonOption option = new GsonOption(); 			
+		option.toolbox()
+				.show(true)
+				.x(X.right)
+				.feature(new MagicType(Magic.pie, Magic.funnel).show(true),
+						Tool.saveAsImage);
+		option.calculable(true);
+		option.title().x("center").text(title);
+		option.itemStyle().emphasis().shadowBlur(10).shadowOffsetX(0);
+		option.tooltip().trigger(Trigger.item);
+		option.calculable(true);
+		int sizeName = listName.size();
+		String[] ArrayName = (String[]) listName.toArray(new String[sizeName]);
+		option.legend().x("left").orient(Orient.vertical).data(ArrayName);
+		Pie pie = new Pie();
+		String[] center = new String[] { "50%", "60%" };
+		pie.name("访问来源").radius("75%").center(center);
+		
+		for (Map<String, Object> objectMap : listValue)
+		{
+			pie.data(new PieData(objectMap.get("name").toString(), objectMap.get("value"))); 
+		}
+		option.series(pie);
+		return option;
+	}
+
+}
