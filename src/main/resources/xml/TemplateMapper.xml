@@ -31,12 +31,13 @@
     where Is_Default = 1
   </select>
   
-  <select id="selectTemplate" parameterType="com.zbt.yqjk.pojo.TemplateInfo" resultMap="ResultMap" >
-	select 
-    <include refid="Base_Column_List" />
+  <select id="selectByTempName" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    count(1)
     from TB_TEMPLATE_INFO
-    where Temp_Name=#{tempName} and Temp_Body=#{tempBody}
-	</select>
+   where Temp_Name=#{tempName}
+  </select>
+  
 	<select id="selectAll" parameterType="com.zbt.yqjk.pojo.TemplateInfo" resultMap="ResultMap" >
 	select 
     <include refid="Base_Column_List" />

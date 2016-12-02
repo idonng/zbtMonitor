@@ -186,7 +186,7 @@
 	</select>
   
   <select id="selectKeywordFeature" resultType="java.lang.String">
-    select  distinct  keyword_Feature
+    select     keyword_Feature
     from TB_KEYWORD
      <if test="keywordIsenable != null" >
      where   keyword_IsEnable = #{keywordIsenable,jdbcType=INTEGER}

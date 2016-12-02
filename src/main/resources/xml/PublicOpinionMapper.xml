@@ -328,28 +328,30 @@
 		select top ${pageBean.rowSize}
 		<include refid="Base_Column_List" />
 		from TB_PUBLIC_OPINION_INFO
-		where Published_Date NOT IN (
-		SELECT TOP (SELECT
-		${pageBean.rowSize}*${pageBean.currentPage-1}) Published_Date FROM
-		TB_PUBLIC_OPINION_INFO
-		WHERE keyword in
-		<foreach item="item" index="index" collection="keywords" open="("
-			separator="," close=")">
-			#{item.keywordName}
-		</foreach>
-		AND result_Effective = 1
-		AND result_Type in
-		<foreach item="item" index="index" collection="resultTypes"
-			open="(" separator="," close=")">
-			#{item}
-		</foreach>
-		<if test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">
-			AND Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
-		</if>
-		<if	test="resultEmotion!=10000">
-			AND result_Emotion = #{resultEmotion} 
-		</if>
-		order by Published_Date desc
+		where  result_Ky NOT IN (
+			SELECT 
+			TOP (SELECT ${pageBean.rowSize}*${pageBean.currentPage-1}) 
+			result_Ky
+			FROM
+			TB_PUBLIC_OPINION_INFO
+			WHERE keyword in
+			<foreach item="item" index="index" collection="keywords" open="("
+				separator="," close=")">
+				#{item.keywordName}
+			</foreach>
+			AND result_Effective = 1
+			AND result_Type in
+			<foreach item="item" index="index" collection="resultTypes"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+			<if test="begintime!=null and begintime!='' and endtime!=null and endtime!=''">
+				AND Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+			</if>
+			<if	test="resultEmotion!=10000">
+				AND result_Emotion = #{resultEmotion} 
+			</if>
+			order by Published_Date desc
 		)
 		AND keyword in
 		<foreach item="item" index="index" collection="keywords" open="("
@@ -418,7 +420,7 @@
     from TB_PUBLIC_OPINION_INFO
     where  
     Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime}  
-    AND result_IsFocus = 1 order by Published_Date desc;
+    AND result_IsFocus = 1  AND result_Effective = 1 order by Published_Date desc;
   </select>
 	<!-- 根据key集合来收藏对应记录 -->
 	<update id="focusPublicOpinion">
@@ -513,6 +515,15 @@
 		</foreach>
 	</update>
 
+	<!-- 根据日期和情感分类获取舆情内容  -->
+		<select id="selectByDateAndEmotion" resultMap="BaseResultMap" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from TB_PUBLIC_OPINION_INFO
+	    where  
+	    Published_Date &gt;= #{begintime} and Published_Date  &lt;  #{endtime}  
+	    AND result_Emotion  = 3 AND result_Effective = 1 order by Published_Date desc;
+	  </select>
 	<!-- 根据日期获取总记录数 -->
 	<select id="selectCountByDate" resultType="java.lang.Integer">
 		select count(1)
@@ -549,7 +560,29 @@
 		AND result_Emotion = #{resultEmotion,jdbcType=INTEGER}
 		AND result_Effective = 1;
 	</select>
-
+<!-- //根据日期和数据来源分类和情感分类获取舆情报告表格数据 -->
+	<select id="selectListByType" resultType="java.util.Map">
+		SELECT B.Name AS type,ISNULL(A.Y, 0) AS zm , ISNULL(A.Z, 0) AS zx ,ISNULL(A.F,
+		0) AS fm ,ISNULL(A.N, 0) AS wfl,ISNULL(A.num,0) AS num from (SELECT
+		result_Type ,SUM(CASE WHEN result_Emotion = '1' THEN 1
+		ELSE 0
+		END) AS Y ,
+		SUM(CASE WHEN result_Emotion = '2' THEN 1
+		ELSE 0
+		END) AS Z,
+		SUM(CASE WHEN result_Emotion = '3' THEN 1
+		ELSE 0
+		END) AS F,SUM(CASE WHEN result_Emotion = '0' THEN 1
+		ELSE 0
+		END) AS N,
+		COUNT(*) AS num
+		FROM dbo.TB_PUBLIC_OPINION_INFO
+		WHERE Published_Date >= #{begintime} and Published_Date &lt; #{endtime}
+		AND result_Effective = 1
+		GROUP BY result_Type) A right JOIN (SELECT * FROM TB_TYPE_INFO WHERE
+		Belong='Media')
+		B ON A.result_Type =B.Type ORDER BY B.Type
+	</select>
 	<!-- 根据媒体类型、情感分类获取全部舆情数据集合 -->
 	<select id="getTop10PublicOpinion" resultMap="BaseResultMap">
 		select top 10

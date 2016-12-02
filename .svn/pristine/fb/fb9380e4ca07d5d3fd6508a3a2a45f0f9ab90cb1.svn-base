@@ -1,0 +1,71 @@
+package com.zbt.yqjk.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.zbt.yqjk.dao.ITemplateDao;
+import com.zbt.yqjk.pojo.TemplateInfo;
+import com.zbt.yqjk.service.ITemplateService;
+
+
+@Service("templateService")
+public class TemplateServiceImpl implements ITemplateService {
+	@Resource
+	private ITemplateDao templateDao;
+	@Override
+	//通过id查找
+	public TemplateInfo selectByPrimaryKey(Long tempId) {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectByPrimaryKey(tempId);
+	}
+
+	//通过模板名称查询是否存在此模板（名称不能重复）
+	public int selectByTempName(String tempName) {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectByTempName(tempName);
+	}
+
+	//新增模板
+	public int insert(TemplateInfo record) {
+		// TODO Auto-generated method stub
+		if (selectByTempName(record.getTempName()) != 0) {
+			return 0;
+		}
+		return this.templateDao.insert(record);
+	}
+	
+	//模板删除字段由1变为0 ,增加最近操作人
+	public int deleteByPrimaryKey(TemplateInfo record) {
+		// TODO Auto-generated method stub
+		return this.templateDao.deleteByPrimaryKey(record);
+	}
+
+	//查询是否存在默认模板
+	public TemplateInfo selectByIsDefault(int Default) {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectByIsDefault(Default);
+	}
+	
+	//模板默认字段由0变为1 ,增加最近操作人
+	public int isDefault(TemplateInfo record) {
+		// TODO Auto-generated method stub
+		
+		return this.templateDao.isDefault(record);
+	}
+	
+	//页面展示
+	public List<TemplateInfo>  selectAll() {
+		// TODO Auto-generated method stub
+		return this.templateDao.selectAll();
+	}
+
+	//模板更新,增加最近操作人
+	public int updateByPrimaryKeySelective(TemplateInfo record) {
+		// TODO Auto-generated method stub
+		return this.templateDao.updateByPrimaryKeySelective(record);
+	}
+
+}

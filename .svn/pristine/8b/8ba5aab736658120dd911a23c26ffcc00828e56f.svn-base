@@ -1,0 +1,362 @@
+package com.zbt.yqjk.controller;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONException;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zbt.yqjk.common.LogTool;
+import com.zbt.yqjk.common.TransType;
+import com.zbt.yqjk.pojo.Keyword;
+import com.zbt.yqjk.pojo.User;
+import com.zbt.yqjk.service.IKeywordService;
+
+
+@Controller
+@RequestMapping("/page")
+public class KeywordController {
+	@Resource
+	private IKeywordService keywordService;
+	
+	private static final Logger logger = Logger.getLogger(KeywordController.class);
+	
+	@ResponseBody
+	@RequestMapping("/loadKeyword_Feature.do")
+	public String toIndex(HttpServletRequest request,HttpServletResponse response){		
+		//加载专题名称
+		Keyword keyword = new Keyword();
+		keyword.setKeywordIsenable(1);
+		
+		List<String> keywordFeatures= this.keywordService.selectKeywordFeature(keyword);	
+		String jsonString = null;
+		try{
+			jsonString = TransType.objectToJson(keywordFeatures);
+		}catch(Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error("后台获得的专题数据集合转化成Json格式失败！", e);
+		}
+		return jsonString;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/selectKeyword.do")
+	public String selectKeyword(HttpServletRequest request,HttpServletResponse response)
+	{
+	 Keyword kw1=new Keyword();
+	 kw1.setKeywordIsenable(1);
+	 List<String> keywordFeatures =this.keywordService.selectKeywordFeature(kw1);
+	 Map<String,String> maps = new HashMap<String,String>();
+	 for (int i = 0; i < keywordFeatures.size(); i++) {
+	 List<Keyword> keywords=this.keywordService.selectKeywordsByKeywordFeature(keywordFeatures.get(i),1);
+	 String kw="";
+	 for (int j = 0; j < keywords.size(); j++) {
+	 kw=kw+keywords.get(j).getKeywordName()+" ";
+	 }
+	 maps.put(keywordFeatures.get(i), kw);
+	 }
+	
+	 List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+	 for (String key: maps.keySet()) {
+		 Map<String, String> map =new HashMap<String, String>();
+		 map.put("value", maps.get(key));
+		 map.put("key", key);
+		 list.add(map);
+		// System.out.println("key= "+key+ " and value= " + maps.get(key));
+	 }
+	 String result="";
+	try {
+		result = TransType.objectToJson(list);
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		logger.error("后台获取关键字的数据集合转化成Json格式失败！", e);
+	}
+	//System.out.println(result);
+	 return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteKeyword.do")
+	public String deleteKeyword(@RequestParam("KeywordFeature") String KeywordFeature,HttpServletRequest request,HttpServletResponse response)
+	{
+		User user = (User)request.getSession().getAttribute("user");
+		Keyword keyword = new Keyword();
+		Long uidString = Long.parseLong (user.getUserId().toString());
+		keyword.setRcdUserid(uidString);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+		keyword.setKeywordFeature(KeywordFeature);
+		keyword.setKeywordIsenable(1);
+		try {
+		keyword.setRcdDate(sdf.parse(sdf.format(new Date())));
+		} catch (ParseException e) {
+		 // TODO Auto-generated catch block
+		e.printStackTrace();
+		logger.error("时间格式转换失败！", e);
+		}
+		int result= this.keywordService.updateByKeywordFeature(keyword);
+		
+	 if(result>0)
+	 {
+		new LogTool().insertLog(user.getUserId(), 2, "删除"+ KeywordFeature +"专题");
+		 //删除成功
+		return "1";
+	 }
+	 else {
+		 //删除失败
+		return "0";
+	}
+	 
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("/updateKeyword.do")
+	public String updateKeyword(@RequestParam("KeywordFeature") String KeywordFeature,@RequestParam("KeywordName") String KeywordName,HttpServletRequest request,HttpServletResponse response)
+	{
+		 User user = (User)request.getSession().getAttribute("user");
+		 int resulti = 0;
+		 int resultr = 0;
+		 int resultu = 0;
+		 String newkwns = KeywordName;
+		 newkwns=newkwns.replaceAll("(\\s)+", " ").trim();
+		 Set<String> set = new HashSet<String>();
+		 for (int i = 0; i < newkwns.split(" ").length; i++) {
+		 set.add(newkwns.split(" ")[i]);
+		 }
+		 List<String> newkwn = new ArrayList<String>(set);
+		 
+		 Long uidString=Long.parseLong (user.getUserId().toString());
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		 List<Keyword> oldkws = this.keywordService.selectKeywordsByKeywordFeature(KeywordFeature, 1);
+		
+		 List<String> oldkwn = new ArrayList<String>();
+		 List<String> newkwn1 = new ArrayList<String>();
+		 newkwn1.addAll(newkwn);
+		 for (Keyword oldkw : oldkws) {
+		 oldkwn.add(oldkw.getKeywordName());
+		 }
+		 newkwn.removeAll(oldkwn);
+		 oldkwn.removeAll(newkwn1);
+
+		 if (newkwn.size() > 0) {
+			 for (int i = 0; i < newkwn.size(); i++) {
+		
+				 List<Keyword> oldkws0 = this.keywordService.selectKeywordsByKeywordFeature(KeywordFeature, 0);
+				 
+				 List<String> oldkwn0 = new ArrayList<String>();
+				 for (Keyword oldkw0 : oldkws0) {
+				 oldkwn0.add(oldkw0.getKeywordName());
+				 }
+				if(oldkwn0.contains(newkwn.get(i)))
+				{
+					Keyword keywordrea = new Keyword();
+					keywordrea.setKeywordFeature(KeywordFeature);
+					keywordrea.setKeywordName(newkwn.get(i));
+					keywordrea.setRcdUserid(uidString);
+				 try {
+					 keywordrea.setRcdDate(sdf.parse(sdf.format(new Date())));
+				 } catch (ParseException e) {
+				 // TODO Auto-generated catch block
+				 e.printStackTrace();
+				 logger.error("时间格式转换失败！", e);
+				 }
+				resultr = this.keywordService.reactiveByKeywordName(keywordrea);
+				 }
+				else {
+					 Keyword keyword = new Keyword();
+					 keyword.setKeywordFeature(KeywordFeature);
+					
+					 keyword.setKeywordName(newkwn.get(i));
+					 keyword.setAddUserid(uidString);
+					 keyword.setRcdUserid(uidString);
+					 keyword.setKeywordIsenable(1);
+					 try {
+					 keyword.setAddDate(sdf.parse(sdf.format(new Date())));
+					 keyword.setRcdDate(sdf.parse(sdf.format(new Date())));
+					 } catch (ParseException e) {
+					 // TODO Auto-generated catch block
+					 e.printStackTrace();
+					 logger.error("时间格式转换失败！", e);
+					 }
+					resulti= this.keywordService.insert(keyword);
+				}	
+				} 
+		 }
+		 if (oldkwn.size() > 0) {
+		 for (int i = 0; i < oldkwn.size(); i++) {
+			 Keyword keyworddel = new Keyword();
+			 keyworddel.setKeywordFeature(KeywordFeature);
+			
+			 keyworddel.setKeywordName(oldkwn.get(i));
+			 keyworddel.setRcdUserid(uidString);
+			 keyworddel.setKeywordIsenable(1);
+		 try {
+			 keyworddel.setRcdDate(sdf.parse(sdf.format(new Date())));
+		 } catch (ParseException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 logger.error("时间格式转换失败！", e);
+		 }
+		
+		resultu= this.keywordService.updateByKeywordName(keyworddel);
+		 
+		}
+		}
+		 if(newkwn.size() ==0&&oldkwn.size()==0)
+		 {
+			 //无需更新，新输入的关键字已存在
+			 return "0";
+		 }
+		 if(resulti>0||resultr>0||resultu>0)
+		 {
+			 new LogTool().insertLog(user.getUserId(), 3, "更新专题"+ KeywordFeature +"下的关键字");
+			 //更新成功
+			 return "1";
+		 }
+		 else {
+			 //更新失败
+			return "2";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addKeyword.do")
+	public String addKeyword(@RequestParam("KeywordFeature") String KeywordFeature,@RequestParam("KeywordName") String KeywordName,HttpServletRequest request,HttpServletResponse response)
+	{
+		 User user = (User)request.getSession().getAttribute("user");
+		 int resulti = 0;
+		 int resultr = 0;
+		 int resulta = 0;
+		 String kwf = KeywordFeature;
+		 String kwns = KeywordName;
+		 kwns=kwns.replaceAll("(\\s)+", " ").trim();
+		 //已存在的有效专题
+		 Keyword oldkw1=new Keyword();
+		 oldkw1.setKeywordIsenable(1);
+		 List<String> oldkwf1=this.keywordService.selectKeywordFeature(oldkw1);
+		 if(oldkwf1.contains(kwf))
+		 {
+			 //已存在
+			 return "1";
+		 }
+		 else {
+			 //已存在的无效专题
+			 Keyword oldkw0=new Keyword();
+			 oldkw0.setKeywordIsenable(0);
+			 List<String> oldkwf0=this.keywordService.selectKeywordFeature(oldkw0);
+			 if(oldkwf0.contains(kwf))
+			 {
+				 //当前关键字去重
+				 Set<String> set = new HashSet<String>();
+				 for (int i = 0; i < kwns.split(" ").length; i++) {
+				 set.add(kwns.split(" ")[i]);
+				 }
+				 List<String> kwn = new ArrayList<String>(set);
+				 Long uidString = Long.parseLong (user.getUserId().toString());
+				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				 List<Keyword> oldkws = this.keywordService.selectKeywordsByKeywordFeature(kwf, 0);
+				 List<String> oldkwn = new ArrayList<String>();
+				 for (Keyword oldkw : oldkws) {
+				 oldkwn.add(oldkw.getKeywordName());
+				 } 
+					 for (int i = 0; i < kwn.size(); i++) {
+						 //如果无效专题已有该关键字，则激活该专题对应的关键字
+						if(oldkwn.contains(kwn.get(i)))
+						{
+							Keyword keywordrea = new Keyword();
+							keywordrea.setKeywordFeature(kwf);
+							keywordrea.setKeywordName(kwn.get(i));
+							keywordrea.setRcdUserid(uidString);
+						 try {
+							 keywordrea.setRcdDate(sdf.parse(sdf.format(new Date())));
+						 } catch (ParseException e) {
+						 // TODO Auto-generated catch block
+						 e.printStackTrace();
+						 logger.error("时间格式转换失败！", e);
+						 }
+						 resultr=this.keywordService.reactiveByKeywordName(keywordrea);
+						 }
+						else {
+							//插入新关键字
+							 Keyword keyword = new Keyword();
+							 keyword.setKeywordFeature(kwf);
+							 keyword.setKeywordName(kwn.get(i));
+							 keyword.setAddUserid(uidString);
+							 keyword.setRcdUserid(uidString);
+							 keyword.setKeywordIsenable(1);
+							 try {
+							 keyword.setAddDate(sdf.parse(sdf.format(new Date())));
+							 keyword.setRcdDate(sdf.parse(sdf.format(new Date())));
+							 } catch (ParseException e) {
+							 // TODO Auto-generated catch block
+							 e.printStackTrace();
+							 logger.error("时间格式转换失败！", e);
+							 }
+							 resulti= this.keywordService.insert(keyword);
+						}	
+						} 				 
+			 }
+		//无效专题和有效专题都不含有该专题，则插入该转题及关键字
+		else {		 
+		 Long uidString = Long.parseLong (user.getUserId().toString());
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		 Keyword keywordinst = new Keyword();
+		 keywordinst.setKeywordFeature(kwf);
+		
+		 keywordinst.setAddUserid(uidString);
+		 keywordinst.setRcdUserid(uidString);
+		 keywordinst.setKeywordIsenable(1);
+		 try {
+			 keywordinst.setAddDate(sdf.parse(sdf.format(new Date())));
+			 keywordinst.setRcdDate(sdf.parse(sdf.format(new Date())));
+		 } catch (ParseException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 logger.error("时间格式转换失败！", e);
+		 }
+		 String[] kwn = kwns.split(" ");
+		 Set<String> set = new HashSet<String>();
+		 for (int i = 0; i < kwn.length; i++) {
+		 set.add(kwn[i]);
+		 }
+		 for (String keyw : set) {
+			 keywordinst.setKeywordName(keyw);
+			 resulta= this.keywordService.insert(keywordinst);
+		 }
+		 }
+		 }
+		 if(resulti>0||resultr>0||resulta>0)
+		 {
+			 //添加成功
+			 new LogTool().insertLog(user.getUserId(), 1, "添加专题"+ KeywordFeature);
+			 return "2";
+		 }
+		 else {
+			 //添加失败
+			return "3";
+		}
+	}
+	
+}

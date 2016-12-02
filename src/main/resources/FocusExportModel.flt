@@ -1776,7 +1776,7 @@
                             <w:sz w:val="24"/>
                             <w:sz-cs w:val="24"/>
                           </w:rPr>
-                          <w:t>${PublicO_index +1}、${PublicO.resultTitle}</w:t>
+                          <#escape x as x?html><w:t>${PublicO_index +1}、${PublicO.resultTitle?html}</w:t></#escape>
                         </w:r>
                       </w:hlink>
                     </w:p>
@@ -1889,7 +1889,7 @@
                     <w:sz w:val="28"/>
                     <w:sz-cs w:val="28"/>
                   </w:rPr>
-                  <w:t>${PublicO_index +1}、${PublicO.resultTitle}</w:t>
+                  <#escape x as x?html><w:t>${PublicO_index +1}、${PublicO.resultTitle?html}</w:t></#escape>
                 </w:r>
 				<aml:annotation aml:id="0" w:type="Word.Bookmark.End"/>
               </w:p>
@@ -2048,8 +2048,9 @@
                           <w:sz-cs w:val="21"/>
                         </w:rPr>
                         <w:t>：【</w:t>
-                      </w:r>
-                      <w:hlink w:dest="${PublicO.resultUrl}">
+                      </w:r> 
+                      <#escape x as x?html>
+                      <w:hlink w:dest="${PublicO.resultUrl?html}">
                         <w:r wsp:rsidRPr="00AD0CA5">
                           <w:rPr>
                             <w:rStyle w:val="a3"/>
@@ -2059,7 +2060,7 @@
                           </w:rPr>
                           <w:t>点击访问原文</w:t>
                         </w:r>
-                      </w:hlink>
+                      </w:hlink></#escape>
                       <w:r wsp:rsidRPr="00AD0CA5">
                         <w:rPr>
                           <w:rFonts w:ascii="宋体" w:fareast="宋体" w:h-ansi="宋体" w:hint="fareast"/>
@@ -2234,7 +2235,7 @@
                           <w:rFonts w:hint="fareast"/>
                           <wx:font wx:val="宋体"/>
                         </w:rPr>
-                        <w:t>${PublicO.resultBody}</w:t>
+                        <#escape x as x?html><w:t>${PublicO.resultBody?html}</w:t></#escape>
                       </w:r>
                     </w:p>
                     <w:p wsp:rsidR="00D63E39" wsp:rsidRDefault="002C0B4C" wsp:rsidP="00083116">

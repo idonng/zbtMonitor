@@ -4,16 +4,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%
-	session.setAttribute("user", null);
-%>
+<%session.setAttribute("user",null);%>
 <title>登录|zbtMonitor</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="${ctx}/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${ctx}/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet"
+	href="${ctx}/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="${ctx}/css/login.css" />
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="${ctx}/font-awesome/css/font-awesome.css"
+	rel="stylesheet" />
 <link
 	href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800'
 	rel='stylesheet' type='text/css'>
@@ -46,7 +46,7 @@
 			}
 		});
 	}
-//	testJSON();
+	//	testJSON();
 	function testJSON() {
 		var urlPath = "${ctx}/test.do";
 		$.ajax({
@@ -67,7 +67,7 @@
 	}
 </script>
 </head>
-<body>
+<body onkeypress="javascript:if(event.keyCode==13) ajaxRequest();">
 	<div id="loginbox">
 		<div class="control-group normal_text">
 			<h3>
@@ -79,8 +79,7 @@
 				<div class="main_input_box">
 					<span class="add-on bg_lg"><i class="icon-user"></i> </span><input
 						type="text" placeholder="账号" name="userAdmin" id="userAdmin" 
-					 
-						 />
+						  />
 				</div>
 			</div>
 		</div>
@@ -89,7 +88,7 @@
 				<div class="main_input_box">
 					<span class="add-on bg_ly"><i class="icon-lock"></i> </span><input
 						type="password" placeholder="密码" name="userPwd" id="userPwd" 
-						  />
+						   />
 				</div>
 			</div>
 		</div>
