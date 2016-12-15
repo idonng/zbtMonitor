@@ -267,9 +267,7 @@
 	    if(ParamTypes=="" || ParamTypes==null){
 	    	$.ligerDialog.warn('请选择媒体类型！');
 	    }else{ 
-	    	 if(grid){
-	       		grid.changePage("first"); 
-	  		}
+	    	 
 	    	grid= $("#maingrid4").ligerGrid({
 			    title:'<font color=green>欢迎查看舆情信息!</font>'
 			    +'<img src=\'${ctx}/img/ema.png\' title=\'邮件发送\' onclick=\'emafirm()\' style=\'margin-left:84%;cursor: pointer;\'/>'
@@ -334,7 +332,9 @@
 	            width:"100%",
 	            height:"85%",
 	        });
-	        
+	        if(grid){
+	       		grid.changePage("first"); 
+	  		}
 	    }  		
    }
     

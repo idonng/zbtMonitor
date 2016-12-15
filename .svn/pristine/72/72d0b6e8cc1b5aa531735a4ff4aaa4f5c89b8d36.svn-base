@@ -18,7 +18,7 @@
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css"> 
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
 <style>
 	label{display: inline-block !important;margin-left: 1em;width: 5em !important;height: 2em !important;}
 	.typeKind{width: 6em !important; height: 2em !important;text-align: center !important;line-height: 2em !important; }
@@ -266,75 +266,71 @@
  		//当没有选择分类时，不执行查询！
 	    if(ParamTypes=="" || ParamTypes==null){
 	    	$.ligerDialog.warn('请选择媒体类型！');
-	    }else{ 
-	    	 if(grid){
-	       		grid.changePage("first"); 
-	  		}
+	    }else{
 	    	grid= $("#maingrid4").ligerGrid({
-			    title:'<font color=green>欢迎查看舆情信息!</font>'
-			    +'<img src=\'${ctx}/img/ema.png\' title=\'邮件发送\' onclick=\'emafirm()\' style=\'margin-left:84%;cursor: pointer;\'/>'
-			    +'<img src=\'${ctx}/img/pho.png\' title=\'短信发送\' onclick=\'phofirm()\' style=\'margin-left:86%;cursor: pointer;\'/>'
-			    +'<img src=\'${ctx}/img/focus.png\' title=\'收藏\' onclick=\'focusfirm()\' style=\'margin-left:88%;cursor: pointer;\'/>'
-			    +'<img src=\'${ctx}/img/del.png\' title=\'删除\'  onclick=\'deletefirm()\' style=\'margin-left:90%;cursor: pointer;\'/>'
-			    +'<img src=\'${ctx}/img/good.png\' title=\'正面\' onclick=\'goodfirm()\' style=\'margin-left:92%;cursor: pointer;\'/>'
-			    +'<img src=\'${ctx}/img/mid.png\' title=\'中立\' onclick=\'midfirm()\' style=\'margin-left:94%;cursor: pointer;\'/>'
-			    +'<img src=\'${ctx}/img/bad.png\' title=\'负面\' onclick=\'badfirm()\' style=\'margin-left:96%;cursor: pointer;\'/>',
-			    checkbox: true,
-			    columns: [
-	            { display: '编号',name: 'resultKy',width:"7%"},
-	            { display: '标题', name: 'resultTitle',width:"37%",align:'left'},
-	            { display: '作者', name: 'resultAuthor' ,width:"12%"},
-	            { display: '来源分类', name: 'resultType' ,width:"6%",
-	            	 render: function (row)   
-	                {     //数据来源分类  1：微博  2：新闻   3：论坛  4：博客  5：微信
-	                    var html = null; 
-	                    if (row.resultType == 1){  
-	                        html = "微博";  
-	                    }else if(row.resultType == 2){
-	                    	html = "新闻"; 
-	                    }else if(row.resultType == 3){
-	                    	html = "论坛"; 
-	                    }else if(row.resultType == 4){
-	                    	html = "博客"; 
-	                    }else if(row.resultType == 5){
-	                    	html = "微信"; 
-	                    }else {
-	                    	html = "未知来源"; 
-	                    }  
-	                  return html;    
-	                }    
-	            },
-	            { display: '数据来源', name: 'resultSource' ,width:"7%"},
-	            { display: '关键字', name: 'keyword' ,width:"9%"},
-	           	{ display: '发布时间', name: 'resultBody' ,width:"12%"},
-	            { display: '情感分类', name: 'resultEmotion' ,width:"8%",align:'left',
-	            	render: function (row){     //情感分类  0:未分类;(默认为0)  1:正面; 2:中立; 3:负面;
-	                    var html = null; 
-	                    if (row.resultEmotion == 0){  
-	                        html = "<img src='${ctx}/img/none.png' style='margin-left:20px'/> 未分类";  
-	                    }else if(row.resultEmotion == 1){
-	                    	html = "<img src='${ctx}/img/good.png' style='margin-left:20px'/> 正面"; 
-	                    }else if(row.resultEmotion == 2){
-	                    	html = "<img src='${ctx}/img/mid.png' style='margin-left:20px'/> 中立"; 
-	                    }else if(row.resultEmotion == 3){
-	                    	html = "<img src='${ctx}/img/bad.png' style='margin-left:20px'/> 负面"; 
-	                    }               
-	                  return html;    
-	                }    
-	            },       
-	            ],            
-	            parms:[{name:"ParamTypes",value:ParamTypes},{name:"emoType",value:emoType},{name:"beginToEnd",value:beginToEnd},{name:"keywordFeature",value:keywordFeature}], 
-	            url : urlPath,
-	            enabledSort:false,
-	            pageParmName :"currentPage",
-	            pagesizeParmName:"rowSize",
-	            pageSize:10,
-	            record : "total",
-	            root :"list",
-	            width:"100%",
-	            height:"85%",
-	        });
-	        
+		    title:'<font color=green>欢迎查看舆情信息!</font>'
+		    +'<img src=\'${ctx}/img/ema.png\' title=\'邮件发送\' onclick=\'emafirm()\' style=\'margin-left:84%;cursor: pointer;\'/>'
+		    +'<img src=\'${ctx}/img/pho.png\' title=\'短信发送\' onclick=\'phofirm()\' style=\'margin-left:86%;cursor: pointer;\'/>'
+		    +'<img src=\'${ctx}/img/focus.png\' title=\'收藏\' onclick=\'focusfirm()\' style=\'margin-left:88%;cursor: pointer;\'/>'
+		    +'<img src=\'${ctx}/img/del.png\' title=\'删除\'  onclick=\'deletefirm()\' style=\'margin-left:90%;cursor: pointer;\'/>'
+		    +'<img src=\'${ctx}/img/good.png\' title=\'正面\' onclick=\'goodfirm()\' style=\'margin-left:92%;cursor: pointer;\'/>'
+		    +'<img src=\'${ctx}/img/mid.png\' title=\'中立\' onclick=\'midfirm()\' style=\'margin-left:94%;cursor: pointer;\'/>'
+		    +'<img src=\'${ctx}/img/bad.png\' title=\'负面\' onclick=\'badfirm()\' style=\'margin-left:96%;cursor: pointer;\'/>',
+		    checkbox: true,
+		    columns: [
+            { display: '编号',name: 'resultKy',width:"7%"},
+            { display: '标题', name: 'resultTitle',width:"37%",align:'left'},
+            { display: '作者', name: 'resultAuthor' ,width:"12%"},
+            { display: '来源分类', name: 'resultType' ,width:"6%",
+            	 render: function (row)   
+                {     //数据来源分类  1：微博  2：新闻   3：论坛  4：博客  5：微信
+                    var html = null; 
+                    if (row.resultType == 1){  
+                        html = "微博";  
+                    }else if(row.resultType == 2){
+                    	html = "新闻"; 
+                    }else if(row.resultType == 3){
+                    	html = "论坛"; 
+                    }else if(row.resultType == 4){
+                    	html = "博客"; 
+                    }else if(row.resultType == 5){
+                    	html = "微信"; 
+                    }else {
+                    	html = "未知来源"; 
+                    }  
+                  return html;    
+                }    
+            },
+            { display: '数据来源', name: 'resultSource' ,width:"7%"},
+            { display: '关键字', name: 'keyword' ,width:"9%"},
+           	{ display: '发布时间', name: 'resultBody' ,width:"12%"},
+            { display: '情感分类', name: 'resultEmotion' ,width:"8%",align:'left',
+            	render: function (row){     //情感分类  0:未分类;(默认为0)  1:正面; 2:中立; 3:负面;
+                    var html = null; 
+                    if (row.resultEmotion == 0){  
+                        html = "<img src='${ctx}/img/none.png' style='margin-left:20px'/> 未分类";  
+                    }else if(row.resultEmotion == 1){
+                    	html = "<img src='${ctx}/img/good.png' style='margin-left:20px'/> 正面"; 
+                    }else if(row.resultEmotion == 2){
+                    	html = "<img src='${ctx}/img/mid.png' style='margin-left:20px'/> 中立"; 
+                    }else if(row.resultEmotion == 3){
+                    	html = "<img src='${ctx}/img/bad.png' style='margin-left:20px'/> 负面"; 
+                    }               
+                  return html;    
+                }    
+            },       
+            ],            
+            parms:[{name:"ParamTypes",value:ParamTypes},{name:"emoType",value:emoType},{name:"beginToEnd",value:beginToEnd},{name:"keywordFeature",value:keywordFeature}], 
+            url : urlPath,
+            pageParmName :"currentPage",
+            pagesizeParmName:"rowSize",
+            pageSize:10,
+            record : "total",
+            root :"list",
+            width:"100%",
+            height:"85%",
+        });
+	    
 	    }  		
    }
     

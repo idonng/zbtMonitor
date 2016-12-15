@@ -46,25 +46,6 @@
 			}
 		});
 	}
-	//	testJSON();
-	function testJSON() {
-		var urlPath = "${ctx}/test.do";
-		$.ajax({
-			type : "POST",
-			url : urlPath,
-			data : {},
-			dataType : "json",
-			success : function(data) {
-				var json = eval("(" + data + ")");
-				for ( var i = 0; i < json.length; i++) {
-					alert(json[i]);
-				}
-			},
-			error : function(data) {
-				alert("error");
-			}
-		});
-	}
 </script>
 </head>
 <body onkeypress="javascript:if(event.keyCode==13) ajaxRequest();">

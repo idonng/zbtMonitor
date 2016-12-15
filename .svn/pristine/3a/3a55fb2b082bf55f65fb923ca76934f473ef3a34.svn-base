@@ -1,8 +1,13 @@
 package com.zbt.yqjk.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Service;
 
@@ -15,27 +20,23 @@ import com.github.abel533.echarts.code.Orient;
 import com.github.abel533.echarts.code.Tool;
 import com.github.abel533.echarts.code.Trigger;
 import com.github.abel533.echarts.code.X;
+import com.github.abel533.echarts.code.Y;
+import com.github.abel533.echarts.data.LineData;
 import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.feature.MagicType;
 import com.github.abel533.echarts.json.GsonOption;
+import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.series.Series;
+import com.zbt.yqjk.dao.IKeywordDao;
+import com.zbt.yqjk.pojo.Keyword;
 import com.zbt.yqjk.service.IEchartsReportService;
+import com.zbt.yqjk.service.IKeywordService;
 
-/**
- * 类名: EchartsReportServiceImpl 
- * 功能: echarts所需option数据封装
- * 作者: vivira
- * 日期: 2016/12/3
- */
-@SuppressWarnings("all")
 @Service("echartsService")
 public class EchartsReportServiceImpl implements IEchartsReportService {
 
-	/* (non-Javadoc)
-	 * @see com.zbt.yqjk.service.IEchartsReportService#getLineOption(java.lang.String, java.lang.String, int, java.util.List, java.util.List, java.util.List)
-	 */
 	@Override
 	public Option getLineOption(String title,String subtext,int Interval, List listX,  List listName, List<Map> listValue) {
 		// TODO Auto-generated method stub
@@ -53,7 +54,6 @@ public class EchartsReportServiceImpl implements IEchartsReportService {
 		option.calculable(true);
 		int sizeName = listName.size();
 		String[] ArrayName = (String[]) listName.toArray(new String[sizeName]);
-		//图例
 		option.legend().x("left").orient(Orient.vertical).data(ArrayName).itemWidth(8).padding(0);
 		int xsize = listX.size();
 		String[] xArray = (String[]) listX.toArray(new String[xsize]);
@@ -67,7 +67,6 @@ public class EchartsReportServiceImpl implements IEchartsReportService {
 		ValueAxis valueAxis = new ValueAxis();
 		option.yAxis(valueAxis);
 		valueAxis.name("条数");
-		//数据
 		List<Series> seriess = new ArrayList<Series>() ;
 		for (Map map : listValue) {
 			Line line=new Line().smooth(true); 
@@ -81,9 +80,6 @@ public class EchartsReportServiceImpl implements IEchartsReportService {
 		return option;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.zbt.yqjk.service.IEchartsReportService#getpieOption(java.lang.String, java.lang.String, java.util.List, java.util.List)
-	 */
 	@Override
 	public Option getpieOption(String title,String subtext, List listName, List<Map<String, Object>> listValue) {
 		// TODO Auto-generated method stub

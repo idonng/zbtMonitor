@@ -1,17 +1,22 @@
 package com.zbt.yqjk.controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,13 +49,6 @@ import com.zbt.yqjk.service.IEchartsReportService;
 import com.zbt.yqjk.service.IPublicOpinionService;
 import com.zbt.yqjk.service.ITemplateService;
 
-/**
- * 类名: ReportController 
- * 功能: 实现舆情报告前后台处理
- * 作者: vivira
- * 日期: 2016/12/5
- */
-@SuppressWarnings("all")
 @Controller
 @RequestMapping("/page")
 public class ReportController {
@@ -74,16 +72,6 @@ public class ReportController {
 
 	private String situation = null;
 
-	/**
-	 * 功能: 实现word导出
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 报告类型 type
-	 * 参数: 模板id tempId
-	 * 参数: request
-	 * 参数: response   
-	 * 返回值类型: void
-	 * 时间:  2016/12/5 11:35
-	 */
 	@RequestMapping("/exportReport.do")
 	public void exportReport(
 			@RequestParam("publishedDate") String publishedDate,
@@ -144,14 +132,6 @@ public class ReportController {
 		}
 	}
 
-	/**
-	 * 功能: 舆情概况编辑保存
-	 * 参数: 舆情概况内容 situation
-	 * 参数: request
-	 * 参数: response
-	 * 返回值类型: Map<String,String>
-	 * 时间:  2016/12/5 11:45
-	 */
 	@RequestMapping("/situation.do")
 	@ResponseBody
 	// 舆情概况，保存至session里，展示
@@ -166,14 +146,8 @@ public class ReportController {
 		return map;
 	}
 
-	/**
-	 * 功能: echarts图表自动保存图片
-	 * 参数: request
-	 * 参数: response   
-	 * 返回值类型: void
-	 * 时间:  2016/12/5 11:49
-	 */
 	@RequestMapping("/saveImage.do")
+	// echarts图表自动保存图片
 	public void saveImage(HttpServletRequest request,
 			HttpServletResponse response) {
 
@@ -208,15 +182,6 @@ public class ReportController {
 		}
 	}
 
-	/**
-	 * 功能: 前台所有信息展示
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 报告类型 type
-	 * 参数: request
-	 * 参数: response
-	 * 返回值类型: Map<String,Object>
-	 * 时间:  2016/12/5 11:50
-	 */
 	@RequestMapping("/show.do")
 	@ResponseBody
 	public Map<String, Object> show(
@@ -316,13 +281,10 @@ public class ReportController {
 		PublicOpinion po = new PublicOpinion();
 		po.setBegintime(begin);
 		po.setEndtime(end);
-		//通过发布日期和已关注返回舆情信息
 		List<PublicOpinion> publicOpinion = publicOpinionService
 				.selectByDateAndIsfocus(po);
-		//通过发布日期和情感分类返回舆情信息-负面信息展示
 		List<PublicOpinion> fmPublicOpinion = publicOpinionService
 				.selectByDateAndEmotion(po);
-		//通过发布日期和情感分类和信息来源返回舆情信息-前台表格展示
 		List<Map<String, Object>> table = publicOpinionService
 				.selectListByType(po);
 		Integer wfl = count - positiveCount - neuterCount - negativeCount;
@@ -359,9 +321,9 @@ public class ReportController {
 		map.put("wfl", wfl.toString());
 		map.put("result", "ok");
 
+		// jsp页面展示
 		// 前台界面显示所有模板
 		tempController.selectAll(request, response);
-		// jsp页面展示
 		request.getSession().setAttribute("table", table);
 		request.getSession().setAttribute("si", si);
 		request.getSession().setAttribute("situation", situation);
@@ -388,16 +350,6 @@ public class ReportController {
 
 	}
 
-	/**
-	 * 功能: echarts饼图展示
-	 * 参数: 情感分类 emotion
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 报告类型 type
-	 * 参数: request
-	 * 参数: response   
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 9:04
-	 */
 	@RequestMapping("/showPie.do")
 	@ResponseBody
 	public String showPie(@RequestParam("publishedDate") String publishedDate,
@@ -470,14 +422,7 @@ public class ReportController {
 		return json.toString();
 	}
 
-	/**
-	 * 功能: 封装饼图共用方法
-	 * 参数: 开始时间 begintime
-	 * 参数: 结束时间 endtime
-	 * 参数: 情感分类 emotion
-	 * 返回值类型: Map
-	 * 时间:  2016/12/4 8:35
-	 */
+	// 类别图-饼图
 	private Map pie(String begintime, String endtime, int emotion) {
 		Map<String, List> map = new HashMap<String, List>();
 		List<String> list1 = new ArrayList<String>();
@@ -556,16 +501,6 @@ public class ReportController {
 		return map;
 	}
 
-	/**
-	 * 功能: echarts折线图展示
-	 * 参数: 情感分类 emotion
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 报告类型 type
-	 * 参数: request
-	 * 参数: response   
-	 * 返回值类型: String
-	 * 时间:  2016/12/3 8:50
-	 */
 	@RequestMapping(value = "/showLine")
 	@ResponseBody
 	public String showLine(@RequestParam("publishedDate") String publishedDate,
@@ -641,13 +576,7 @@ public class ReportController {
 		return json.toString();
 	}
 
-	/**
-	 * 功能: 折线图方法封装——每4小时查询一次数据
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 情感分类 emotion
-	 * 返回值类型: Map
-	 * 时间:  2016/12/3 9:00
-	 */
+	// 每4小时查询一次数据
 	private Map dayLine(String publishedDate, int emotion) {
 
 		Map<String, List> map = new HashMap<String, List>();
@@ -721,13 +650,7 @@ public class ReportController {
 		return map;
 	}
 
-	/**
-	 * 功能: 折线图方法封装——前推一周的数据
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 情感分类 emotion
-	 * 返回值类型: Map
-	 * 时间:  2016/12/3 9:35
-	 */
+	// 前推一周的数据
 	private Map weekLine(String publishedDate, int emotion) {
 
 		Map<String, List> map = new HashMap<String, List>();
@@ -798,13 +721,7 @@ public class ReportController {
 		return map;
 	}
 
-	/**
-	 * 功能: 折线图方法封装——本月的数据
-	 * 参数: 发布日期 publishedDate
-	 * 参数: 情感分类 emotion
-	 * 返回值类型: Map
-	 * 时间:  2016/12/3 10:35
-	 */
+	// 本月的数据
 	private Map monthLine(String publishedDate, int emotion) {
 		Map<String, List> map = new HashMap<String, List>();
 		// lengend显示
@@ -879,14 +796,8 @@ public class ReportController {
 		}
 		return map;
 	}
-	/**
-	 * 功能: 折线图方法封装——自定义时间的数据
-	 * 参数: 开始日期 publishedDate
-	 * 参数: 结束日期 endTime
-	 * 参数: 情感分类 emotion
-	 * 返回值类型: Map
-	 * 时间:  2016/12/5 14:35
-	 */
+
+	// 自定义时间的数据
 	private Map selfLine(String publishedDate, String endTime, int emotion) {
 
 		Map<String, List> map = new HashMap<String, List>();
@@ -963,14 +874,7 @@ public class ReportController {
 		return map;
 	}
 
-	/**
-	 * 功能: 通过日期和情感分类查询所有条数
-	 * 参数: 开始日期 begintime
-	 * 参数: 结束日期 endtime
-	 * 参数: 情感分类 emotion
-	 * 返回值类型: int
-	 * 时间:  2016/12/2 15:35
-	 */
+	// 通过日期和情感分类查询所有条数
 	private int selectByEmotion(String begintime, String endtime, int emotion) {
 
 		PublicOpinion po = new PublicOpinion();
@@ -989,12 +893,7 @@ public class ReportController {
 
 	}
 
-	/**
-	 * 功能: 判断文件夹下图片个数
-	 * 参数: 文件夹路径 path
-	 * 返回值类型: int
-	 * 时间:  2016/12/5 14:10
-	 */
+	// 判断文件夹下图片个数
 	private int getFilesNumber(String path) {
 		File file = new File(path);
 		String files[];
@@ -1002,12 +901,7 @@ public class ReportController {
 		return files.length;
 	}
 
-	/**
-	 * 功能: 将echarts生成图片转换成流文件，传给map转换成word
-	 * 参数: 文件路径+名称 imgFile
-	 * 返回值类型: String
-	 * 时间:  2016/12/2 17:35
-	 */
+	// 将echarts生成图片转换成流文件，传给map转换成word
 	private String getImageStr(String imgFile) {
 		InputStream in = null;
 		byte[] data = null;

@@ -8,22 +8,11 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-/**
- * 类名: ReportDate 
- * 功能: 实现freemark导出word功能
- * 作者: vivira
- * 日期: 2016/12/4
- */
 public class ReportDate {
 	
 	private static final Logger logger = Logger.getLogger(ReportDate.class);
 
-	/**
-	 * 功能: 日期转字符串
-	 * 参数: 日期 date
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 11:35
-	 */
+	//日期转字符串
 	public static String parseStringByBoth(Date date) {
 		if (date == null)
 			return null;
@@ -31,12 +20,7 @@ public class ReportDate {
 		return formatParse.format(date);
 	}
 	
-	/**
-	 * 功能: 转换中文格式
-	 * 参数: 字符串日期 specifiedDay
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 11:35
-	 */
+	//转换中文格式
 	public static String parseString(String specifiedDay) {
 		Calendar c = Calendar.getInstance();
 		Date date = null;
@@ -53,12 +37,7 @@ public class ReportDate {
 		return year + "年" + month + "月" + day + "日";
 	}
 
-	/**
-	 * 功能: 判断月日时
-	 * 参数: 字符串日期 specifiedDay
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 11:35
-	 */
+	// 判断月日时
 	public static String JudgeHouse(String specifiedDay) {
 		Calendar c = Calendar.getInstance();
 		Date date = null;
@@ -75,12 +54,7 @@ public class ReportDate {
 		return month + "/" + day + " " + house + "时";
 	}
 
-	/**
-	 * 功能:  判断月日
-	 * 参数: 字符串日期 specifiedDay
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 11:35
-	 */
+	// 判断月日
 	public static String JudgeDay(String specifiedDay) {
 		Calendar c = Calendar.getInstance();
 		Date date = null;
@@ -96,12 +70,7 @@ public class ReportDate {
 		return month + "/" + day;
 	}
 
-	/**
-	 * 功能: 判断年月
-	 * 参数: 字符串日期 specifiedDay
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 11:35
-	 */
+	// 判断年月
 	public static String JudgeYearMonth(String specifiedDay) {
 		Calendar c = Calendar.getInstance();
 		Date date = null;
@@ -118,12 +87,7 @@ public class ReportDate {
 		return year + "-" + month;
 	}
 
-	/**
-	 * 功能: 判断某年某月多少天
-	 * 参数: 字符串日期 specifiedDay
-	 * 返回值类型: int
-	 * 时间:  2016/12/4 13:35
-	 */
+	// 判断某年某月多少天
 	public static int JudgeDateAmount(String specifiedDay) {
 		Calendar cal = Calendar.getInstance();
 		Date date = null;
@@ -139,11 +103,11 @@ public class ReportDate {
 	}
 
 	/**
-	 * 功能: 获得指定日期的前N天
-	 * 参数: 字符串日期 specifiedDay
-	 * 参数: N number
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 13:35
+	 * 获得指定日期的前一天
+	 * 
+	 * @param specifiedDay
+	 * @return
+	 * @throws Exception
 	 */
 	public static String getDayBefore(String specifiedDay, int number) {// 可以用new
 																		// Date().toLocalString()传递参数
@@ -165,11 +129,10 @@ public class ReportDate {
 	}
 
 	/**
-	 * 功能: 获得指定日期的后N天
-	 * 参数: 字符串日期 specifiedDay
-	 * 参数: N number
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 14:35
+	 * 获得指定日期的后一天
+	 * 
+	 * @param specifiedDay
+	 * @return
 	 */
 	public static String getDayAfter(String specifiedDay, int number) {
 		Calendar c = Calendar.getInstance();
@@ -190,11 +153,10 @@ public class ReportDate {
 	}
 
 	/**
-	 * 功能: 增加N小时
-	 * 参数: 字符串日期 specifiedDay
-	 * 参数: N number
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 14:45
+	 * 增加小时
+	 * 
+	 * @param specifiedDay
+	 * @return
 	 */
 	public static String addHouse(String specifiedDay, int number) {
 		Calendar c = Calendar.getInstance();
@@ -215,9 +177,9 @@ public class ReportDate {
 	}
 
 	/**
-	 * 功能: 得到当前日期
-	 * 返回值类型: String
-	 * 时间:  2016/12/4 14:30
+	 * 得到当前日期
+	 * 
+	 * @return
 	 */
 	public static String getCurrentDate() {
 		Calendar c = Calendar.getInstance();
@@ -227,11 +189,9 @@ public class ReportDate {
 	}
 
 	/**
-	 * 功能: 判断两个时间段之间多少天
-	 * 参数: 开始时间 date1
-	 * 参数: 结束时间 date2
-	 * 返回值类型: int
-	 * 时间:  2016/12/4 14:35
+	 * 判断两个时间段之间多少天
+	 * 
+	 * @return
 	 */
 	public static int compareDate(String date1, String date2) {
 		int n = 0;
